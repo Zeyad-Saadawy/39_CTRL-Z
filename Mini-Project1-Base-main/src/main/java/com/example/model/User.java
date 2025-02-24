@@ -10,5 +10,4 @@ public class User {
     private String name;
     private List<Order> orders=new ArrayList<>();
 
-    private String nn;
 }

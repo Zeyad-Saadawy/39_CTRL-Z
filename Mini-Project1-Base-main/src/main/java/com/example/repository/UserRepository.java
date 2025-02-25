@@ -2,7 +2,6 @@ package com.example.repository;
 
 import com.example.model.Order;
 import com.example.model.User;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Repository;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +25,7 @@ public class UserRepository extends MainRepository<User> {
         return findAll();
     }
 
-    public User getUserById(UUID userId) {
+        public User getUserById(UUID userId) {
         return findAll().stream()
                 .filter(user -> user.getId().equals(userId))
                 .findFirst()

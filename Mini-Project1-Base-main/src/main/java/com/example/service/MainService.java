@@ -2,12 +2,9 @@ package com.example.service;
 
 import com.example.repository.MainRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 
-@Primary
 @Service
 public abstract class MainService<T> {
 

@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.UUID;
 
 @Component
-public class Cart {
     private UUID id;
     private UUID userId;
     private List<Product> products=new ArrayList<>();

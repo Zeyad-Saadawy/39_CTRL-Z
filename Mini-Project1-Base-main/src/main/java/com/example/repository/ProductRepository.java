@@ -49,10 +49,10 @@ public class ProductRepository extends MainRepository<Product> {
         ArrayList<Product> products = findAll();
         for (Product product : products) {
             if (product.getId().equals(productId)) {
-                product.setName(newName);
-                product.setPrice(newPrice);
-                saveAll(products);
-                return product;
+                product.setName(newName); // Update the name
+                product.setPrice(newPrice); // Update the price
+                saveAll(products); // Save the updated list
+                return product; // Return the updated product
             }
         }
         return null; // Product not found

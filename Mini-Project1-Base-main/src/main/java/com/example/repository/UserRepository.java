@@ -2,6 +2,7 @@ package com.example.repository;
 
 import com.example.model.Order;
 import com.example.model.User;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,13 +11,16 @@ import java.util.UUID;
 @Repository
 public class UserRepository extends MainRepository<User> {
 
+    @Value("${spring.application.userDataPath}")
+    private String userDataPath; // Injected from application.properties
+
     @Override
-    protected String getDataPath() {
-        return "src/main/java/com/example/data/users.json";
+    public String getDataPath() {
+        return userDataPath;
     }
 
     @Override
-    protected Class<User[]> getArrayType() {
+    public Class<User[]> getArrayType() {
         return User[].class;
     }
 
@@ -74,4 +78,5 @@ public class UserRepository extends MainRepository<User> {
         users.replaceAll(u -> u.getId().equals(user.getId()) ? user : u);
         overrideData(users);
     }
+
 }

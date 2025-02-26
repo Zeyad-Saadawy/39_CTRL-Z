@@ -26,11 +26,13 @@ public class UserRepository extends MainRepository<User> {
     }
 
     public User getUserById(UUID userId) {
-        return findAll().stream()
+        ArrayList<User> users = findAll();
+        return users.stream()
                 .filter(user -> user.getId().equals(userId))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("User not found with ID: " + userId));
     }
+
 
     public User addUser(User user) {
         if (user.getId() == null) {

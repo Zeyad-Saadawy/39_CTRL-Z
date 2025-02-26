@@ -3,7 +3,7 @@ package com.example.service;
 public class CartService {
     // CartService.java
     public double calculateTotalPrice(Cart cart) {
-        if(cart == null || cart.getProducts().isEmpty()) {
+        if (cart == null || cart.getProducts() == null || cart.getProducts().isEmpty()) {
             return 0.0;
         }
 
@@ -11,4 +11,5 @@ public class CartService {
                 .mapToDouble(Product::getPrice)
                 .sum();
     }
+
 }

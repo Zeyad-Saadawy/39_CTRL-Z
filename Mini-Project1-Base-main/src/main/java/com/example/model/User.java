@@ -38,4 +38,22 @@ public class User {
     public List<Order> getOrders() { return orders; }
     public void setOrders(List<Order> orders) { this.orders = orders; }
 
+    @Override
+    public String toString() {
+        return "User{id=" + id + ", name='" + name + "', orders=" + orders + "}";
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        User user = (User) obj;
+        return Objects.equals(id, user.id) && Objects.equals(name, user.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name);
+    }
+
 }

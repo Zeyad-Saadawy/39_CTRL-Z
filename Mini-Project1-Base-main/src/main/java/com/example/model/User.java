@@ -12,21 +12,21 @@ public class User {
     private List<Order> orders=new ArrayList<>();
 
     // 3 Constructors
-    // 1. No-args constructor
     public User() {}
 
-    // 2. Constructor with all fields (id, name, orders)
     public User(UUID id, String name, List<Order> orders) {
         this.id = id;
         this.name = name;
-        this.orders = orders;
+        this.orders = (orders != null) ? orders : new ArrayList<>();
     }
 
-    // 3. Constructor without "id"
     public User(String name, List<Order> orders) {
+        this.id = UUID.randomUUID();
         this.name = name;
-        this.orders = orders;
+        this.orders = (orders != null) ? orders : new ArrayList<>();
     }
+
+
 
     // Getters and Setters
     public UUID getId() { return id; }

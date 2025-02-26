@@ -25,11 +25,11 @@ public class UserRepository extends MainRepository<User> {
         return findAll();
     }
 
-        public User getUserById(UUID userId) {
+    public User getUserById(UUID userId) {
         return findAll().stream()
                 .filter(user -> user.getId().equals(userId))
                 .findFirst()
-                .orElse(null);
+                .orElseThrow(() -> new IllegalArgumentException("User not found with ID: " + userId));
     }
 
     public User addUser(User user) {
@@ -42,23 +42,23 @@ public class UserRepository extends MainRepository<User> {
 
     public List<Order> getOrdersByUserId(UUID userId) {
         User user = getUserById(userId);
-        return user != null ? user.getOrders() : new ArrayList<>();
+        return user.getOrders();
     }
 
     public void addOrderToUser(UUID userId, Order order) {
-        User user = getUserById(userId);
-        if (user != null) {
-            user.getOrders().add(order);
-            updateUser(user);
-        }
+        User user = getUserById(userId); // Throws exception if user not found with ID
+        user.getOrders().add(order);
+        updateUser(user);
     }
 
     public void removeOrderFromUser(UUID userId, UUID orderId) {
-        User user = getUserById(userId);
-        if (user != null) {
-            user.getOrders().removeIf(order -> order.getId().equals(orderId));
-            updateUser(user);
+        User user = getUserById(userId); // Throws exception if user not found
+        boolean removed = user.getOrders().removeIf(order -> order.getId().equals(orderId));
+
+        if (!removed) {
+            throw new IllegalArgumentException("Order not found with ID: " + orderId);
         }
+        updateUser(user);
     }
 
     public void deleteUserById(UUID userId) {

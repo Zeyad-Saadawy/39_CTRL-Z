@@ -51,16 +51,16 @@ public class UserService extends MainService<User> {
     // 7.2.2.5 Add a New Order (Checkout)
     public void addOrderToUser(UUID userId) {
         Cart cart = cartService.getCartByUserId(userId);
-        if (cart == null || cart.getProducts().isEmpty()) {
-            throw new IllegalStateException("Cart is empty");
+
+        // Validate cart exists and has products
+        if(cart == null || cart.getProducts().isEmpty()) {
+            throw new IllegalStateException("Cannot checkout empty cart");
         }
 
-        // Calculate total price
-        double totalPrice = cart.getProducts().stream()
-                .mapToDouble(Product::getPrice)
-                .sum();
+        // Delegate price calculation to CartService
+        double totalPrice = cartService.calculateTotalPrice(cart);
 
-        // Create order
+        // Create new order from cart contents
         Order order = new Order(
                 UUID.randomUUID(),
                 userId,
@@ -68,11 +68,13 @@ public class UserService extends MainService<User> {
                 new ArrayList<>(cart.getProducts())
         );
 
-        // Persist order
+        // Persist the order
         orderService.addOrder(order);
 
-        // Update user and clear cart
+        // Add order to user's order history
         userRepository.addOrderToUser(userId, order);
+
+        // Empty the cart
         cartService.emptyCart(userId);
     }
 

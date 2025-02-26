@@ -29,4 +29,15 @@ public class CartService {
                 .sum();
     }
 
+    public Cart addCart(Cart cart) {
+        return null;
+    }
+
+    public void addProductToCart(UUID id, Product product) {
+
+    }
+
+    public void deleteProductFromCart(UUID id, Product product) {
+
+    }
 }

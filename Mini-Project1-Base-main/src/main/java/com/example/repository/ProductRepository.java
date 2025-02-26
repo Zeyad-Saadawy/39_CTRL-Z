@@ -1,6 +1,7 @@
 package com.example.repository;
 
 import com.example.model.Product;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +16,7 @@ public class ProductRepository extends MainRepository<Product> {
 
     @Override
     protected String getDataPath() {
-        return "data/products.json"; // Path to the products JSON file
+        return productDataPath; // Path to the products JSON file
     }
 
     @Override
@@ -76,4 +77,10 @@ public class ProductRepository extends MainRepository<Product> {
         products.removeIf(product -> product.getId().equals(productId));
         saveAll(products);
     }
+
+    @Value("${spring.application.productDataPath}")
+    private String productDataPath; // Injected from application.properties
+
+
+
 }

@@ -20,10 +20,10 @@ public class User {
         this.orders = (orders != null) ? orders : new ArrayList<>();
     }
 
-    public User(String name, List<Order> orders) {
+    public User(String name) {
         this.id = UUID.randomUUID();
         this.name = name;
-        this.orders = (orders != null) ? orders : new ArrayList<>();
+        this.orders =  new ArrayList<>();
     }
 
 

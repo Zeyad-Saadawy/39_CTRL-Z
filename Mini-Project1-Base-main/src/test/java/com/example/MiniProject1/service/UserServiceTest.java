@@ -1,4 +1,4 @@
-package com.example.MiniProject1;
+package com.example.MiniProject1.service;
 
 import com.example.model.User;
 import com.example.model.Order;

@@ -1,5 +1,9 @@
 package com.example.service;
 
+import com.example.model.Cart;
+import org.springframework.stereotype.Service;
+
+@Service
 public class CartService {
     // CartService.java
     public double calculateTotalPrice(Cart cart) {

@@ -30,4 +30,8 @@ public class Cart {
     public void setProducts(List<Product> products) {
         this.products = products;
     }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
 }

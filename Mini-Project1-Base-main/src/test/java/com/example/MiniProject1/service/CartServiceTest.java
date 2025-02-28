@@ -1,4 +1,214 @@
 package com.example.MiniProject1.service;
 
+import com.example.model.Cart;
+import com.example.repository.CartRepository;
+import com.example.service.CartService;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import java.util.List;
+import java.util.UUID;
+
+import static org.junit.jupiter.api.Assertions.*;
+
 public class CartServiceTest {
+
+
+    private CartRepository cartRepository;
+    private CartService cartService;
+
+    @BeforeEach
+    void setUp() {
+        cartRepository = new CartRepository();
+        cartService = new CartService(cartRepository);
+    }
+
+    @Test
+    void addCart() {  //when user still has no cart
+
+        UUID userId = UUID.randomUUID();
+        Cart cart = new Cart(userId);
+
+
+        Cart result = cartService.addCart(cart);
+
+
+        assertNotNull(result);
+        assertEquals(userId, result.getUserId());
+    }
+
+
+    @Test
+    void testAddCart_UserAlreadyHasCart() {
+
+        UUID userId = UUID.randomUUID();
+        Cart existingCart = new Cart(userId);
+
+
+        cartRepository.save(existingCart);
+
+
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            cartService.addCart(existingCart);
+        });
+
+
+        assertEquals("User already has a cart!", exception.getMessage());
+    }
+
+    @Test
+    void testAddCart_StoredCorrectly() {
+        // Arrange
+        UUID userId = UUID.randomUUID();
+        Cart cart = new Cart(userId);
+
+
+        Cart addedCart = cartService.addCart(cart);
+
+
+        Cart retrievedCart = cartService.getCartById(addedCart.getId());
+
+
+        assertNotNull(retrievedCart);
+        assertEquals(addedCart.getId(), retrievedCart.getId());
+        assertEquals(userId, retrievedCart.getUserId());
+    }
+
+    @Test
+    void testGetCarts_ReturnsAllCarts() {
+
+        UUID user1 = UUID.randomUUID();
+        UUID user2 = UUID.randomUUID();
+
+        Cart cart1 = new Cart(user1);
+        Cart cart2 = new Cart(user2);
+
+        cartService.addCart(cart1);
+        cartService.addCart(cart2);
+
+
+        List<Cart> carts = cartService.getCarts();
+
+        assertTrue(carts.stream()
+                .filter(cart -> cart.getId() != null)  // Ignore null ids
+                .anyMatch(cart -> cart.getId().equals(cart1.getId()))
+        );
+
+        assertTrue(carts.stream()
+                .filter(cart -> cart.getId() != null)  // Ignore null ids
+                .anyMatch(cart -> cart.getId().equals(cart1.getId()))
+        );
+        assertNotNull(carts);
+        assertTrue(carts.size() >= 2); // min 2 carts
+    }
+
+    @Test
+    void testGetCarts_ContainsSpecificCart() {
+
+        UUID userId = UUID.randomUUID();
+        Cart expectedCart = new Cart(userId);
+        cartService.addCart(expectedCart);
+
+
+        List<Cart> carts = cartService.getCarts();
+
+
+        assertNotNull(carts);
+        assertTrue(carts.stream().anyMatch(cart -> cart.getUserId().equals(userId)));
+    }
+
+
+    @Test
+    void testGetCarts_EnsuresCorrectFormat() {
+
+        List<Cart> carts = cartService.getCarts();
+
+
+        assertNotNull(carts, "Carts list should not be null");
+
+
+        for (Cart cart : carts) {
+            assertNotNull(cart.getUserId(), "User ID should not be null");
+            assertNotNull(cart.getProducts(), "Products list should not be null");
+        }
+    }
+
+    @Test
+    void testGetCartById_ReturnsCorrectCart() {
+        // Arrange
+        UUID userId = UUID.randomUUID();
+        Cart cart = new Cart(userId);
+        cartService.addCart(cart);
+
+        // Act
+        Cart retrievedCart = cartService.getCartById(cart.getId());
+
+        // Assert
+        assertNotNull(retrievedCart);
+        assertEquals(cart.getId(), retrievedCart.getId());
+        assertEquals(cart.getUserId(), retrievedCart.getUserId());
+    }
+
+    @Test
+    void testGetCartById_ThrowsException_WhenCartNotFound() {
+
+        UUID randomId = UUID.randomUUID();
+
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            cartService.getCartById(randomId);
+        });
+
+        assertEquals("Cart not found ", exception.getMessage());
+    }
+
+    @Test
+    void testGetCartById_ThrowsException_WhenIdIsNull() {
+
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            cartService.getCartById(null);
+        });
+
+        assertEquals("Cart not found ", exception.getMessage());
+    }
+
+    @Test
+    void testGetCartByUserId_ReturnsCorrectCart() {
+
+        UUID userId = UUID.randomUUID();
+        Cart cart = new Cart(userId);
+        cartService.addCart(cart);
+
+
+        Cart retrievedCart = cartService.getCartByUserId(userId);
+
+
+        assertNotNull(retrievedCart);
+        assertEquals(cart.getUserId(), retrievedCart.getUserId());
+        assertEquals(cart.getId(), retrievedCart.getId());
+    }
+
+    @Test
+    void testGetCartByUserId_ThrowsException_WhenCartNotFound() {
+
+        UUID randomUserId = UUID.randomUUID();
+
+
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            cartService.getCartByUserId(randomUserId);
+        });
+
+        assertEquals("Cart not found ", exception.getMessage());
+    }
+
+    @Test
+    void testGetCartByUserId_ThrowsException_WhenUserIdIsNull() {
+
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            cartService.getCartByUserId(null);
+        });
+
+        assertEquals("Cart not found ", exception.getMessage());
+    }
+
+
 }

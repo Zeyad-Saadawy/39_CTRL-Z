@@ -15,14 +15,14 @@ public class Cart {
         this.products = new ArrayList<>();  // Ensures the list isn't null
     }
 
-    public Cart(UUID id, UUID userId) {
-        this.id = id;
+    public Cart( UUID userId) {
+        this.id = UUID.randomUUID(); ;
         this.userId = userId;
         this.products = new ArrayList<>();  // Ensures products are initialized
     }
 
     public Cart(UUID id, UUID userId, List<Product> products) {
-        this.id = id;
+        this.id = (id != null) ? id : UUID.randomUUID();
         this.userId = userId;
         this.products = products != null ? products : new ArrayList<>();  // Avoid null products
     }

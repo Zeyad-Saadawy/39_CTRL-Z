@@ -36,10 +36,13 @@ public class CartRepository extends MainRepository<Cart>{
     }
 
     public Cart getCartById(UUID cartId) {
+        System.out.println("Searching for Cart ID: " + cartId);
         return findAll().stream()
-                .filter(cart -> cart.getId().equals(cartId))
+                .filter(cart -> cart.getId() != null && cart.getId().equals(cartId))
                 .findFirst()
                 .orElse(null);  // Return null if not found
+
+
     }
 
     public Cart getCartByUserId(UUID userId) {

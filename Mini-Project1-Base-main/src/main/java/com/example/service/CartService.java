@@ -29,6 +29,7 @@ public class CartService {
     }
 
     public Cart addCart(Cart cart) {
+
         Cart existingCart = cartRepository.getCartByUserId(cart.getUserId());
 
         if (existingCart != null) { // Check if cart already exists

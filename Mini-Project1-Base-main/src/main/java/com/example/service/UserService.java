@@ -6,6 +6,7 @@ import com.example.model.Cart;
 import com.example.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import com.example.model.Product;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -10,5 +10,8 @@ public class Order {
     private UUID userId;
     private double totalPrice;
     private List<Product> products=new ArrayList<>();
+
+    public Order(UUID uuid, UUID userId, double totalPrice, List<Product> products) {
+    }
 }
 

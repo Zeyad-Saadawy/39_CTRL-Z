@@ -73,13 +73,8 @@ public class CartService {
                 .sum();
     }
 
-    public void deleteCartById(UUID userId) {
-        Cart cart = getCartByUserId(userId);
-        if (cart != null) {
-            cartRepository.deleteCartById(cart.getId());
-        } else {
-            throw new IllegalArgumentException("Cart not found for user: " + userId);
-        }
+    public void deleteCartById(UUID cartId) {
+        cartRepository.deleteCartById(cartId);
     }
 
     // Add a product to a user's cart

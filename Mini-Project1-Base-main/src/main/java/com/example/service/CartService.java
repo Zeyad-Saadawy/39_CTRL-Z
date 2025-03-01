@@ -76,6 +76,10 @@ public class CartService {
     public void deleteCartById(UUID cartId) {
         cartRepository.deleteCartById(cartId);
     }
+    public void deleteCartByUserId(UUID userId) {
+        Cart cart = getCartByUserId(userId);
+        cartRepository.deleteCartById(cart.getId());
+    }
 
     // Add a product to a user's cart
     public void addProductToCart(UUID userId, Product product) {

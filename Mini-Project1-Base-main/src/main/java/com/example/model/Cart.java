@@ -21,8 +21,8 @@ public class Cart {
         this.products = new ArrayList<>();  // Ensures products are initialized
     }
 
-    public Cart(UUID id, UUID userId, List<Product> products) {
-        this.id = (id != null) ? id : UUID.randomUUID();
+    public Cart( UUID userId, List<Product> products) {
+        this.id = UUID.randomUUID();
         this.userId = userId;
         this.products = products != null ? products : new ArrayList<>();  // Avoid null products
     }

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.example.model.Product;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -17,15 +18,6 @@ public class CartService {
     @Autowired
     public CartService(CartRepository cartRepository) {
         this.cartRepository = cartRepository;
-    }
-    public double calculateTotalPrice(Cart cart) {
-        if (cart == null || cart.getProducts() == null || cart.getProducts().isEmpty()) {
-            return 0.0;
-        }
-
-        return cart.getProducts().stream()
-                .mapToDouble(Product::getPrice)
-                .sum();
     }
 
     public Cart addCart(Cart cart) {
@@ -65,8 +57,28 @@ public class CartService {
 
 
     public void emptyCart(UUID userId) {
+        Cart cart = getCartByUserId(userId);
+        // delete the cart and create a new one
+        cartRepository.deleteCartById(cart.getId());
+        cartRepository.addCart(new Cart(userId));
     }
 
-    public void deleteCartByUserId(UUID userId) {
+    public double calculateTotalPrice(Cart cart) {
+        if (cart == null || cart.getProducts() == null || cart.getProducts().isEmpty()) {
+            return 0.0;
+        }
+
+        return cart.getProducts().stream()
+                .mapToDouble(Product::getPrice)
+                .sum();
+    }
+
+    public void deleteCartById(UUID userId) {
+        Cart cart = getCartByUserId(userId);
+        if (cart != null) {
+            cartRepository.deleteCartById(cart.getId());
+        } else {
+            throw new IllegalArgumentException("Cart not found for user: " + userId);
+        }
     }
 }

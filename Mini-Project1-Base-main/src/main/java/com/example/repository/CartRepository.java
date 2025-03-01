@@ -52,6 +52,10 @@ public class CartRepository extends MainRepository<Cart>{
                 .orElse(null);
     }
 
-
+    public void deleteCartById(UUID cartId) {
+        ArrayList<Cart> carts = getCarts();
+        carts.removeIf(cart -> cart.getId().equals(cartId));
+        saveAll(carts);
+    }
 
 }

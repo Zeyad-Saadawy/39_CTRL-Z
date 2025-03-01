@@ -90,6 +90,7 @@ public class UserService extends MainService<User> {
     // 7.2.2.8 Delete the User
     public void deleteUserById(UUID userId) {
         userRepository.deleteUserById(userId);
-        cartService.deleteCartByUserId(userId);
+        Cart usercart = cartService.getCartByUserId(userId);
+        cartService.deleteCartById(usercart.getId());
     }
 }

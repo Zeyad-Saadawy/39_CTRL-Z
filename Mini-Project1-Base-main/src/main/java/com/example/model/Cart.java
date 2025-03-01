@@ -12,20 +12,26 @@ public class Cart {
     private List<Product> products = new ArrayList<>();
 
     public Cart() {
-    }
-    public Cart(UUID id, UUID userId, List<Product> products) {
-        this.id = id;
-        this.userId = userId;
-        this.products = products;
+        this.products = new ArrayList<>();  // Ensures the list isn't null
     }
 
-    public Cart(UUID id) {
-        this.id = id;
+    public Cart( UUID userId) {
+        this.id = UUID.randomUUID(); ;
+        this.userId = userId;
+        this.products = new ArrayList<>();  // Ensures products are initialized
+    }
+
+    public Cart(UUID id, UUID userId, List<Product> products) {
+        this.id = (id != null) ? id : UUID.randomUUID();
+        this.userId = userId;
+        this.products = products != null ? products : new ArrayList<>();  // Avoid null products
     }
 
     public UUID getId() {
         return id;
     }
+
+
 
     public UUID getUserId() {
         return userId;
@@ -41,8 +47,5 @@ public class Cart {
 
     public void setProducts(List<Product> products) {
         this.products = products;
-    }
-
-    public void setId(UUID uuid) {
     }
 }

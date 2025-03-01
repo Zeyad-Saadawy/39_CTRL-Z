@@ -11,6 +11,18 @@ public class Cart {
     private UUID userId;
     private List<Product> products = new ArrayList<>();
 
+    public Cart() {
+    }
+    public Cart(UUID id, UUID userId, List<Product> products) {
+        this.id = id;
+        this.userId = userId;
+        this.products = products;
+    }
+
+    public Cart(UUID id) {
+        this.id = id;
+    }
+
     public UUID getId() {
         return id;
     }
@@ -31,7 +43,6 @@ public class Cart {
         this.products = products;
     }
 
-    public void setId(UUID id) {
-        this.id = id;
+    public void setId(UUID uuid) {
     }
 }

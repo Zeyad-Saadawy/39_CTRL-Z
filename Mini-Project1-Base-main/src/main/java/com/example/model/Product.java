@@ -1,4 +1,3 @@
-
 package com.example.model;
 
 import org.springframework.stereotype.Component;
@@ -22,10 +21,11 @@ public class Product {
         this.price = price;
     }
 
-    public Product(UUID id, String name, double price) {
-        this.id = id;
-        this.name = name;
-        this.price = price;
+    // Copy constructor
+    public Product(Product product) {
+        this.id = product.id;
+        this.name = product.name;
+        this.price = product.price;
     }
 
     // Getters and Setters

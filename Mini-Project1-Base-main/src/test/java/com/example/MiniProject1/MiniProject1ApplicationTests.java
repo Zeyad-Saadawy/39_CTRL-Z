@@ -1,67 +1,67 @@
-// package com.example.MiniProject1;
+ package com.example.MiniProject1;
 
-// import static org.junit.jupiter.api.Assertions.assertEquals;
-// import static org.junit.jupiter.api.Assertions.assertNotNull;
-// import static org.junit.jupiter.api.Assertions.assertNull;
-// import static org.junit.jupiter.api.Assertions.assertTrue;
+ import static org.junit.jupiter.api.Assertions.assertEquals;
+ import static org.junit.jupiter.api.Assertions.assertNotNull;
+ import static org.junit.jupiter.api.Assertions.assertNull;
+ import static org.junit.jupiter.api.Assertions.assertTrue;
 
-// import java.io.File;
-// import java.io.IOException;
-// import java.util.ArrayList;
-// import java.util.Arrays;
-// import java.util.HashMap;
-// import java.util.List;
-// import java.util.Map;
-// import java.util.UUID;
+ import java.io.File;
+ import java.io.IOException;
+ import java.util.ArrayList;
+ import java.util.Arrays;
+ import java.util.HashMap;
+ import java.util.List;
+ import java.util.Map;
+ import java.util.UUID;
 
-// import org.springframework.http.MediaType;
-// import org.junit.jupiter.api.BeforeEach;
-// import org.junit.jupiter.api.Test;
-// import org.springframework.beans.factory.annotation.Autowired;
-// import org.springframework.beans.factory.annotation.Value;
-// import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-// import org.springframework.context.annotation.ComponentScan;
-// import org.springframework.test.web.servlet.MockMvc;
-// import org.springframework.test.web.servlet.MvcResult;
-// import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-// import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+ import org.springframework.http.MediaType;
+ import org.junit.jupiter.api.BeforeEach;
+ import org.junit.jupiter.api.Test;
+ import org.springframework.beans.factory.annotation.Autowired;
+ import org.springframework.beans.factory.annotation.Value;
+ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+ import org.springframework.context.annotation.ComponentScan;
+ import org.springframework.test.web.servlet.MockMvc;
+ import org.springframework.test.web.servlet.MvcResult;
+ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-// import com.example.model.Cart;
-// import com.example.model.Order;
-// import com.example.model.Product;
-// import com.example.model.User;
-// import com.example.repository.CartRepository;
-// import com.example.repository.OrderRepository;
-// import com.example.repository.ProductRepository;
-// import com.example.repository.UserRepository;
-// import com.example.service.CartService;
-// import com.example.service.OrderService;
-// import com.example.service.ProductService;
-// import com.example.service.UserService;
-// import com.fasterxml.jackson.core.JsonProcessingException;
-// import com.fasterxml.jackson.core.type.TypeReference;
-// import com.fasterxml.jackson.databind.ObjectMapper;
-// @ComponentScan(basePackages = "com.example.*")
-// @WebMvcTest
-// class MiniProject1ApplicationTests {
+ //import com.example.model.Cart;
+ import com.example.model.Order;
+ import com.example.model.Product;
+ import com.example.model.User;
+ import com.example.repository.CartRepository;
+ //import com.example.repository.OrderRepository;
+ import com.example.repository.ProductRepository;
+ import com.example.repository.UserRepository;
+ import com.example.service.CartService;
+ import com.example.service.OrderService;
+ import com.example.service.ProductService;
+ import com.example.service.UserService;
+ import com.fasterxml.jackson.core.JsonProcessingException;
+ import com.fasterxml.jackson.core.type.TypeReference;
+ import com.fasterxml.jackson.databind.ObjectMapper;
+ @ComponentScan(basePackages = "com.example.*")
+ @WebMvcTest
+ class MiniProject1ApplicationTests {
 
-// 	@Value("${spring.application.userDataPath}")
-//     private String userDataPath;
+ 	@Value("${spring.application.userDataPath}")
+     private String userDataPath;
 
-//     @Value("${spring.application.productDataPath}")
-//     private String productDataPath;
+     @Value("${spring.application.productDataPath}")
+     private String productDataPath;
 
-//     @Value("${spring.application.orderDataPath}")
-//     private String orderDataPath;
+     @Value("${spring.application.orderDataPath}")
+     private String orderDataPath;
 
-//     @Value("${spring.application.cartDataPath}")
-//     private String cartDataPath;
+     @Value("${spring.application.cartDataPath}")
+     private String cartDataPath;
 
-// 	@Autowired
-// 	private MockMvc mockMvc;
+ 	@Autowired
+ 	private MockMvc mockMvc;
 
-// 	@Autowired
-// 	private ObjectMapper objectMapper;
+ 	@Autowired
+ 	private ObjectMapper objectMapper;
 
 	
 
@@ -71,8 +71,8 @@
 // 	@Autowired
 // 	private CartService cartService;
 
-// 	@Autowired
-// 	private ProductService productService;
+ 	@Autowired
+ 	private ProductService productService;
 
 // 	@Autowired
 // 	private OrderService orderService;
@@ -82,42 +82,42 @@
 // 	@Autowired
 // 	private CartRepository cartRepository;
 
-// 	@Autowired
-// 	private ProductRepository productRepository;
+ 	@Autowired
+ 	private ProductRepository productRepository;
 
 // 	@Autowired
 // 	private OrderRepository orderRepository;
 
-// 	public void overRideAll(){
-//         try{
-//             objectMapper.writeValue(new File(userDataPath), new ArrayList<User>());
-//             objectMapper.writeValue(new File(productDataPath), new ArrayList<Product>());
-//             objectMapper.writeValue(new File(orderDataPath), new ArrayList<Order>());
-//             objectMapper.writeValue(new File(cartDataPath), new ArrayList<Cart>());
-//         } catch (IOException e) {
-//             throw new RuntimeException("Failed to write to JSON file", e);
-//         }
-//     }
+ 	public void overRideAll(){
+         try{
+             objectMapper.writeValue(new File(userDataPath), new ArrayList<User>());
+             objectMapper.writeValue(new File(productDataPath), new ArrayList<Product>());
+             objectMapper.writeValue(new File(orderDataPath), new ArrayList<Order>());
+             //objectMapper.writeValue(new File(cartDataPath), new ArrayList<Cart>());
+         } catch (IOException e) {
+             throw new RuntimeException("Failed to write to JSON file", e);
+         }
+     }
 
-//     public Object find(String typeString, Object toFind){
-//         switch(typeString){
-//             case "User":
-//                 ArrayList<User> users = getUsers();
+     public Object find(String typeString, Object toFind){
+         switch(typeString){
+             case "User":
+                 ArrayList<User> users = getUsers();
                 
-//                 for(User user: users){
-//                     if(user.getId().equals(((User)toFind).getId())){
-//                         return user;
-//                     }
-//                 }
-//                 break;
-//             case "Product":
-//                 ArrayList<Product> products = getProducts();
-//                 for(Product product: products){
-//                     if(product.getId().equals(((Product)toFind).getId())){
-//                         return product;
-//                     }
-//                 }
-//                 break;
+                 for(User user: users){
+                     if(user.getId().equals(((User)toFind).getId())){
+                         return user;
+                     }
+                 }
+                 break;
+             case "Product":
+                 ArrayList<Product> products = getProducts();
+                 for(Product product: products){
+                     if(product.getId().equals(((Product)toFind).getId())){
+                         return product;
+                     }
+                 }
+                 break;
 //             case "Order":
 //                 ArrayList<Order> orders = getOrders();
 //                 for(Order order: orders){
@@ -134,76 +134,76 @@
 //                     }
 //                 }
 //                 break;
-//         }
-//         return null;
-//     }
+         }
+         return null;
+     }
 
-//     public Product addProduct(Product product) {
-//         try {
-//            File file = new File(productDataPath);
-//            ArrayList<Product> products;
-//            if (!file.exists()) {
-//                products = new ArrayList<>();
-//            } 
-//            else {
-//                products = new ArrayList<>(Arrays.asList(objectMapper.readValue(file, Product[].class)));                
-//            }
-//            products.add(product);
-//            objectMapper.writeValue(file, products);
-//            return product;
-//        } catch (IOException e) {
-//            throw new RuntimeException("Failed to write to JSON file", e);
-//        }
-//    }
-//    public ArrayList<Product> getProducts() {
-//        try {
-//            File file = new File(productDataPath);
-//            if (!file.exists()) {
-//                return new ArrayList<>();
-//            }
-//            return new ArrayList<Product>(Arrays.asList(objectMapper.readValue(file, Product[].class)));
-//        } catch (IOException e) {
-//            throw new RuntimeException("Failed to read from JSON file", e);
-//        }
-//    }
+     public Product addProduct(Product product) {
+         try {
+            File file = new File(productDataPath);
+            ArrayList<Product> products;
+            if (!file.exists()) {
+                products = new ArrayList<>();
+            }
+            else {
+                products = new ArrayList<>(Arrays.asList(objectMapper.readValue(file, Product[].class)));
+            }
+            products.add(product);
+            objectMapper.writeValue(file, products);
+            return product;
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to write to JSON file", e);
+        }
+    }
+    public ArrayList<Product> getProducts() {
+        try {
+            File file = new File(productDataPath);
+            if (!file.exists()) {
+                return new ArrayList<>();
+            }
+            return new ArrayList<Product>(Arrays.asList(objectMapper.readValue(file, Product[].class)));
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to read from JSON file", e);
+        }
+    }
 
-//    public User addUser(User user) {
-//        try {
-//            File file = new File(userDataPath);
-//            ArrayList<User> users;
-//            if (!file.exists()) {
-//                users = new ArrayList<>();
-//            } 
-//            else {
-//                users = new ArrayList<>(Arrays.asList(objectMapper.readValue(file, User[].class)));                
-//            }
-//            users.add(user);
-//            objectMapper.writeValue(file, users);
-//            return user;
-//        } catch (IOException e) {
-//            throw new RuntimeException("Failed to write to JSON file", e);
-//        }
-//    }
-//     public ArrayList<User> getUsers() {
-//          try {
-//               File file = new File(userDataPath);
-//               if (!file.exists()) {
-//                 return new ArrayList<>();
-//               }
-//               return new ArrayList<User>(Arrays.asList(objectMapper.readValue(file, User[].class)));
-//          } catch (IOException e) {
-//               throw new RuntimeException("Failed to read from JSON file", e);
-//          }
-//     }
+    public User addUser(User user) {
+        try {
+            File file = new File(userDataPath);
+            ArrayList<User> users;
+            if (!file.exists()) {
+                users = new ArrayList<>();
+            }
+            else {
+                users = new ArrayList<>(Arrays.asList(objectMapper.readValue(file, User[].class)));
+            }
+            users.add(user);
+            objectMapper.writeValue(file, users);
+            return user;
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to write to JSON file", e);
+        }
+    }
+     public ArrayList<User> getUsers() {
+          try {
+               File file = new File(userDataPath);
+               if (!file.exists()) {
+                 return new ArrayList<>();
+               }
+               return new ArrayList<User>(Arrays.asList(objectMapper.readValue(file, User[].class)));
+          } catch (IOException e) {
+               throw new RuntimeException("Failed to read from JSON file", e);
+          }
+     }
 //     public Cart addCart(Cart cart){
 //        try{
 //               File file = new File(cartDataPath);
 //               ArrayList<Cart> carts;
 //               if (!file.exists()) {
 //                 carts = new ArrayList<>();
-//               } 
+//               }
 //               else {
-//                 carts = new ArrayList<>(Arrays.asList(objectMapper.readValue(file, Cart[].class)));                
+//                 carts = new ArrayList<>(Arrays.asList(objectMapper.readValue(file, Cart[].class)));
 //               }
 //               carts.add(cart);
 //               objectMapper.writeValue(file, carts);
@@ -223,47 +223,47 @@
 //               throw new RuntimeException("Failed to read from JSON file", e);
 //          }
 //     }
-//     public Order addOrder(Order order){
-//          try{
-//                   File file = new File(orderDataPath);
-//                   ArrayList<Order> orders;
-//                   if (!file.exists()) {
-//                  orders = new ArrayList<>();
-//                   } 
-//                   else {
-//                  orders = new ArrayList<>(Arrays.asList(objectMapper.readValue(file, Order[].class)));                
-//                   }
-//                   orders.add(order);
-//                   objectMapper.writeValue(file, orders);
-//                   return order;
-//             } catch (IOException e) {
-//                   throw new RuntimeException("Failed to write to JSON file", e);
-//          }
-//     }
-//     public ArrayList<Order> getOrders() {
-//          try {
-//               File file = new File(orderDataPath);
-//               if (!file.exists()) {
-//                 return new ArrayList<>();
-//               }
-//               return new ArrayList<Order>(Arrays.asList(objectMapper.readValue(file, Order[].class)));
-//          } catch (IOException e) {
-//               throw new RuntimeException("Failed to read from JSON file", e);
-//          }
-//     }
+     public Order addOrder(Order order){
+          try{
+                   File file = new File(orderDataPath);
+                   ArrayList<Order> orders;
+                   if (!file.exists()) {
+                  orders = new ArrayList<>();
+                   }
+                   else {
+                  orders = new ArrayList<>(Arrays.asList(objectMapper.readValue(file, Order[].class)));
+                   }
+                   orders.add(order);
+                   objectMapper.writeValue(file, orders);
+                   return order;
+             } catch (IOException e) {
+                   throw new RuntimeException("Failed to write to JSON file", e);
+          }
+     }
+     public ArrayList<Order> getOrders() {
+          try {
+               File file = new File(orderDataPath);
+               if (!file.exists()) {
+                 return new ArrayList<>();
+               }
+               return new ArrayList<Order>(Arrays.asList(objectMapper.readValue(file, Order[].class)));
+          } catch (IOException e) {
+               throw new RuntimeException("Failed to read from JSON file", e);
+          }
+     }
 
 
 
-// 	private UUID userId;
-// 	private User testUser;
-// 	@BeforeEach
-// 	void setUp() {
-// 		userId = UUID.randomUUID();
-// 		testUser = new User();
-// 		testUser.setId(userId);
-// 		testUser.setName("Test User");
-// 		overRideAll();
-// 	}
+ 	private UUID userId;
+ 	private User testUser;
+ 	@BeforeEach
+ 	void setUp() {
+ 		userId = UUID.randomUUID();
+ 		testUser = new User();
+ 		//testUser.setId(userId);
+ 		testUser.setName("Test User");
+ 		overRideAll();
+ 	}
 
 // 	// ------------------------ User Tests -------------------------
 	
@@ -479,121 +479,121 @@
 // 	// ------------------------ Product Tests -------------------------
 
 	
-// 	@Test
-// 	void testAddProductEndPoint() throws JsonProcessingException, Exception{
+ 	@Test
+ 	void testAddProductEndPoint() throws JsonProcessingException, Exception{
 
-// 		Product testProduct3=new Product();
-// 		testProduct3.setId(UUID.randomUUID());
-// 		testProduct3.setName("Test Product");
-// 		testProduct3.setPrice(10.0);
+ 		Product testProduct3=new Product();
+ 		testProduct3.setId(UUID.randomUUID());
+ 		testProduct3.setName("Test Product");
+ 		testProduct3.setPrice(10.0);
 
 		
 		
 		
-// 		mockMvc.perform(MockMvcRequestBuilders.post("/product/")
-// 				.contentType(MediaType.APPLICATION_JSON)
-// 				.content(objectMapper.writeValueAsString(testProduct3)))
-// 				.andExpect(MockMvcResultMatchers.status().isOk());
+ 		mockMvc.perform(MockMvcRequestBuilders.post("/product/")
+ 				.contentType(MediaType.APPLICATION_JSON)
+ 				.content(objectMapper.writeValueAsString(testProduct3)))
+ 				.andExpect(MockMvcResultMatchers.status().isOk());
 		
-// 		boolean found=false;
+ 		boolean found=false;
 
-// 		for(Product product: getProducts()){
-// 			if(product.getId().equals(testProduct3.getId()) && product.getName().equals(testProduct3.getName()) && product.getPrice()==testProduct3.getPrice()){
-// 				found=true;
-// 				break;
-// 			}
-// 		}
-// 		assertTrue(found,"Product should be added correctly");   
-// 	}
+ 		for(Product product: getProducts()){
+ 			if(product.getId().equals(testProduct3.getId()) && product.getName().equals(testProduct3.getName()) && product.getPrice()==testProduct3.getPrice()){
+ 				found=true;
+ 				break;
+ 			}
+ 		}
+ 		assertTrue(found,"Product should be added correctly");
+ 	}
 
 	
 
-// 	@Test
-// 	void testGetProductsEndPoint() throws Exception{
-// 		Product testProduct6=new Product();
-// 		testProduct6.setId(UUID.randomUUID());
-// 		testProduct6.setName("Test Product");
-// 		testProduct6.setPrice(10.0);
-// 		addProduct(testProduct6);
+ 	@Test
+ 	void testGetProductsEndPoint() throws Exception{
+ 		Product testProduct6=new Product();
+ 		testProduct6.setId(UUID.randomUUID());
+ 		testProduct6.setName("Test Product");
+ 		testProduct6.setPrice(10.0);
+ 		addProduct(testProduct6);
 		
-// 		MvcResult result= mockMvc.perform(MockMvcRequestBuilders.get("/product/")
-// 				.contentType(MediaType.APPLICATION_JSON))
-// 				.andExpect(MockMvcResultMatchers.status().isOk())
-// 				.andReturn();
-// 		String responseContent = result.getResponse().getContentAsString();
-// 		List<Product> responseProducts = objectMapper.readValue(responseContent, new TypeReference<List<Product>>() {});
+ 		MvcResult result= mockMvc.perform(MockMvcRequestBuilders.get("/product/")
+ 				.contentType(MediaType.APPLICATION_JSON))
+ 				.andExpect(MockMvcResultMatchers.status().isOk())
+ 				.andReturn();
+ 		String responseContent = result.getResponse().getContentAsString();
+ 		List<Product> responseProducts = objectMapper.readValue(responseContent, new TypeReference<List<Product>>() {});
 		
-// 		assertEquals(getProducts().size(), responseProducts.size(), "Products should be returned correctly From Endpoint");
-// 	}
+ 		assertEquals(getProducts().size(), responseProducts.size(), "Products should be returned correctly From Endpoint");
+ 	}
 
 	
-// 	@Test
-// 	void testGetProductByIdEndPoint() throws Exception{
-// 		Product testProduct9=new Product();
-// 		testProduct9.setId(UUID.randomUUID());
-// 		testProduct9.setName("Test Product");
-// 		testProduct9.setPrice(10.0);
-// 		addProduct(testProduct9);
+ 	@Test
+ 	void testGetProductByIdEndPoint() throws Exception{
+ 		Product testProduct9=new Product();
+ 		testProduct9.setId(UUID.randomUUID());
+ 		testProduct9.setName("Test Product");
+ 		testProduct9.setPrice(10.0);
+ 		addProduct(testProduct9);
 		
-// 		mockMvc.perform(MockMvcRequestBuilders.get("/product/{productId}", testProduct9.getId()))
-// 				.andExpect(MockMvcResultMatchers.status().isOk())
-// 				.andExpect(MockMvcResultMatchers.content().json(objectMapper.writeValueAsString(testProduct9)));
-// 	}
+ 		mockMvc.perform(MockMvcRequestBuilders.get("/product/{productId}", testProduct9.getId()))
+ 				.andExpect(MockMvcResultMatchers.status().isOk())
+ 				.andExpect(MockMvcResultMatchers.content().json(objectMapper.writeValueAsString(testProduct9)));
+ 	}
 
 
-// 	@Test
-// 	void testUpdateProductEndPoint() throws Exception{
-// 		Product testProduct12=new Product();
-// 		testProduct12.setId(UUID.randomUUID());
-// 		testProduct12.setName("Test Product");
-// 		testProduct12.setPrice(10.0);
-// 		addProduct(testProduct12);
-// 		Map<String,Object> body=new HashMap<>();
-// 		body.put("newName", "UpdatedName");
-// 		body.put("newPrice", 20.0);
-// 		MvcResult result= mockMvc.perform(MockMvcRequestBuilders.put("/product/update/{id}", testProduct12.getId())
-// 				.contentType(MediaType.APPLICATION_JSON)
-// 				.content(objectMapper.writeValueAsString(body)))
-// 				.andExpect(MockMvcResultMatchers.status().isOk())
-// 				.andReturn();
-// 		String responseContent = result.getResponse().getContentAsString();
-// 		Product updatedProduct = objectMapper.readValue(responseContent, Product.class);
-// 		assertEquals(updatedProduct.getId(),testProduct12.getId(),"Product should be updated correctly");
-// 		assertEquals(updatedProduct.getName(),"UpdatedName","Product name should be updated correctly");
-// 		assertEquals(updatedProduct.getPrice(),20.0,"Product price should be updated correctly");
-// 	}
+ 	@Test
+ 	void testUpdateProductEndPoint() throws Exception{
+ 		Product testProduct12=new Product();
+ 		testProduct12.setId(UUID.randomUUID());
+ 		testProduct12.setName("Test Product");
+ 		testProduct12.setPrice(10.0);
+ 		addProduct(testProduct12);
+ 		Map<String,Object> body=new HashMap<>();
+ 		body.put("newName", "UpdatedName");
+ 		body.put("newPrice", 20.0);
+ 		MvcResult result= mockMvc.perform(MockMvcRequestBuilders.put("/product/update/{id}", testProduct12.getId())
+ 				.contentType(MediaType.APPLICATION_JSON)
+ 				.content(objectMapper.writeValueAsString(body)))
+ 				.andExpect(MockMvcResultMatchers.status().isOk())
+ 				.andReturn();
+ 		String responseContent = result.getResponse().getContentAsString();
+ 		Product updatedProduct = objectMapper.readValue(responseContent, Product.class);
+ 		assertEquals(updatedProduct.getId(),testProduct12.getId(),"Product should be updated correctly");
+ 		assertEquals(updatedProduct.getName(),"UpdatedName","Product name should be updated correctly");
+ 		assertEquals(updatedProduct.getPrice(),20.0,"Product price should be updated correctly");
+ 	}
 
 
-// 	@Test
-// 	void testApplyDiscountEndPoint() throws Exception{
-// 		Product testProduct15=new Product();
-// 		testProduct15.setId(UUID.randomUUID());
-// 		testProduct15.setName("Test Product");
-// 		testProduct15.setPrice(10.0);
-// 		addProduct(testProduct15);
-// 		ArrayList<UUID> productIds=new ArrayList<>();
-// 		productIds.add(testProduct15.getId());
-// 		mockMvc.perform(MockMvcRequestBuilders.put("/product/applyDiscount")
-// 				.contentType(MediaType.APPLICATION_JSON)
-// 				.param("discount", "10.0")
-// 				.content(objectMapper.writeValueAsString(productIds)))
-// 				.andExpect(MockMvcResultMatchers.status().isOk())
-// 				.andExpect(MockMvcResultMatchers.content().string("Discount applied successfully"));
-// 		assertEquals(9.0, ((Product)find("Product", testProduct15)).getPrice(),"Product should be updated correctly");
-// 	}
+ 	@Test
+ 	void testApplyDiscountEndPoint() throws Exception{
+ 		Product testProduct15=new Product();
+ 		testProduct15.setId(UUID.randomUUID());
+ 		testProduct15.setName("Test Product");
+ 		testProduct15.setPrice(10.0);
+ 		addProduct(testProduct15);
+ 		ArrayList<UUID> productIds=new ArrayList<>();
+ 		productIds.add(testProduct15.getId());
+ 		mockMvc.perform(MockMvcRequestBuilders.put("/product/applyDiscount")
+ 				.contentType(MediaType.APPLICATION_JSON)
+ 				.param("discount", "10.0")
+ 				.content(objectMapper.writeValueAsString(productIds)))
+ 				.andExpect(MockMvcResultMatchers.status().isOk())
+ 				.andExpect(MockMvcResultMatchers.content().string("Discount applied successfully"));
+ 		assertEquals(9.0, ((Product)find("Product", testProduct15)).getPrice(),"Product should be updated correctly");
+ 	}
 
 
-// 	@Test
-// 	void testDeleteProductByIdEndPoint1() throws Exception{
-// 		Product testProduct15=new Product();
-// 		testProduct15.setId(UUID.randomUUID());
-// 		testProduct15.setName("Test Product");
-// 		testProduct15.setPrice(10.0);
-// 		addProduct(testProduct15);
-// 		mockMvc.perform(MockMvcRequestBuilders.delete("/product/delete/{id}", testProduct15.getId()))
-// 				.andExpect(MockMvcResultMatchers.status().isOk())
-// 				.andExpect(MockMvcResultMatchers.content().string("Product deleted successfully"));
-// 	}
+ 	@Test
+ 	void testDeleteProductByIdEndPoint1() throws Exception{
+ 		Product testProduct15=new Product();
+ 		testProduct15.setId(UUID.randomUUID());
+ 		testProduct15.setName("Test Product");
+ 		testProduct15.setPrice(10.0);
+ 		addProduct(testProduct15);
+ 		mockMvc.perform(MockMvcRequestBuilders.delete("/product/delete/{id}", testProduct15.getId()))
+ 				.andExpect(MockMvcResultMatchers.status().isOk())
+ 				.andExpect(MockMvcResultMatchers.content().string("Product deleted successfully"));
+ 	}}
 
 // 	// --------------------------------- Cart Tests -------------------------
 

@@ -1,6 +1,7 @@
 package com.example.repository;
 
 import com.example.model.Cart;
+import com.example.model.Product;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -57,5 +58,40 @@ public class CartRepository extends MainRepository<Cart>{
         carts.removeIf(cart -> cart.getId().equals(cartId));
         saveAll(carts);
     }
+
+    public void addProductToCart(UUID cartId, Product product) {
+        ArrayList<Cart> carts = getCarts();
+        boolean cartFound = false;
+        for (Cart cart : carts) {
+            if (cart.getId().equals(cartId)) {
+                cart.getProducts().add(product);
+                cartFound = true;
+                break;
+            }
+        }
+        if (!cartFound) {
+            throw new IllegalArgumentException("Cart not found with ID: " + cartId);
+        }
+        overrideData(carts);  // Persist the entire updated list of carts
+    }
+
+    public void deleteProductFromCart(UUID cartId, Product product) {
+        ArrayList<Cart> carts = getCarts();
+        boolean cartFound = false;
+        for (Cart cart : carts) {
+            if (cart.getId().equals(cartId)) {
+                // Remove the product by comparing IDs (or use equals() if properly overridden)
+                cart.getProducts().removeIf(p -> p.getId().equals(product.getId()));
+                cartFound = true;
+                break;
+            }
+        }
+        if (!cartFound) {
+            throw new IllegalArgumentException("Cart not found with ID: " + cartId);
+        }
+        // Persist the updated list of carts
+        overrideData(carts);
+    }
+
 
 }

@@ -81,4 +81,24 @@ public class CartService {
             throw new IllegalArgumentException("Cart not found for user: " + userId);
         }
     }
+
+    // Add a product to a user's cart
+    public void addProductToCart(UUID userId, Product product) {
+        Cart cart = getCartByUserId(userId);
+        if (cart != null) {
+            cartRepository.addProductToCart(cart.getId(), product);
+        } else {
+            throw new IllegalArgumentException("Cart not found for user: " + userId);
+        }
+    }
+
+    // Remove a product from a user's cart
+    public void deleteProductFromCart(UUID userId, Product product) {
+        Cart cart = getCartByUserId(userId);
+        if (cart != null) {
+            cartRepository.deleteProductFromCart(cart.getId(), product);
+        } else {
+            throw new IllegalArgumentException("Cart not found for user: " + userId);
+        }
+    }
 }

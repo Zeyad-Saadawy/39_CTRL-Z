@@ -57,7 +57,7 @@ public class UserController {
     @PostMapping("/{userId}/checkout")
     public String addOrderToUser(@PathVariable UUID userId) {
         userService.addOrderToUser(userId);
-        return "Order placed successfully";
+        return "Order added successfully";
     }
 
     // 8.1.2.6 Remove Order

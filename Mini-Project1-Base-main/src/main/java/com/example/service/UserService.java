@@ -88,15 +88,12 @@ public class UserService extends MainService<User> {
     }
 
     // 7.2.2.8 Delete the User
-    // UserService.java
     public void deleteUserById(UUID userId) {
         try {
             userRepository.deleteUserById(userId);
         } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("User not found with ID: " + userId);
+            throw new IllegalArgumentException("User not found");
         }
-
-        // Always attempt cart deletion regardless of existence
         cartService.deleteCartByUserId(userId);
     }
 }

@@ -113,7 +113,11 @@ public class UserController {
     // 8.1.2.10 Delete User
     @DeleteMapping("/delete/{userId}")
     public String deleteUserById(@PathVariable UUID userId) {
-        userService.deleteUserById(userId);
-        return "User deleted successfully";
+        try {
+            userService.deleteUserById(userId);
+            return "User deleted successfully";
+        } catch (IllegalArgumentException e) {
+            return "User not found";
+        }
     }
 }

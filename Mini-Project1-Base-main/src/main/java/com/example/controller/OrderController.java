@@ -42,7 +42,11 @@ public class OrderController {
     //  Delete a Specific Order
     @DeleteMapping("/delete/{orderId}")
     public String deleteOrderById(@PathVariable UUID orderId) {
-        orderService.deleteOrderById(orderId); // Delegate to the service layer
-        return "Order with ID " + orderId + " has been deleted successfully.";
+        try {
+            orderService.deleteOrderById(orderId);
+            return "Order deleted successfully";
+        } catch (IllegalArgumentException e) {
+            return "Order not found";
+        }
     }
 }

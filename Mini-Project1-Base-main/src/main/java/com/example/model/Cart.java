@@ -16,7 +16,7 @@ public class Cart {
     }
 
     public Cart( UUID userId) {
-        this.id = UUID.randomUUID(); ;
+        this.id = UUID.randomUUID();
         this.userId = userId;
         this.products = new ArrayList<>();  // Ensures products are initialized
     }
@@ -49,5 +49,9 @@ public class Cart {
 
     public void setProducts(List<Product> products) {
         this.products = products;
+    }
+    
+    public void clearProducts() {
+        this.products.clear();
     }
 }

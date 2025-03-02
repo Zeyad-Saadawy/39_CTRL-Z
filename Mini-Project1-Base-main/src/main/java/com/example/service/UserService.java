@@ -52,7 +52,7 @@ public class UserService extends MainService<User> {
         Cart cart = cartService.getCartByUserId(userId);
 
         // Validate cart exists and has products
-        if(cart == null || cart.getProducts().isEmpty()) {
+        if(cart.getProducts()  == null || cart.getProducts().isEmpty()) {
             throw new IllegalStateException("Cannot checkout empty cart");
         }
 
@@ -89,8 +89,15 @@ public class UserService extends MainService<User> {
 
     // 7.2.2.8 Delete the User
     public void deleteUserById(UUID userId) {
-        userRepository.deleteUserById(userId);
-        Cart usercart = cartService.getCartByUserId(userId);
-        cartService.deleteCartById(usercart.getId());
+        try {
+            userRepository.deleteUserById(userId);
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("User not found with ID: " + userId);
+        }
+        try{
+            cartService.deleteCartByUserId(userId);
+        } catch (IllegalArgumentException e) {
+            // Silent catch for missing cart
+        }
     }
 }

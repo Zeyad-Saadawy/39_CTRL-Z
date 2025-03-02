@@ -55,12 +55,10 @@ public class CartService {
         return cart;
     }
 
-
     public void emptyCart(UUID userId) {
         Cart cart = getCartByUserId(userId);
-        // delete the cart and create a new one
-        cartRepository.deleteCartById(cart.getId());
-        cartRepository.addCart(new Cart(userId));
+        cart.getProducts().clear();
+        cartRepository.save(cart); // Update existing cart
     }
 
     public double calculateTotalPrice(Cart cart) {
@@ -76,28 +74,35 @@ public class CartService {
     public void deleteCartById(UUID cartId) {
         cartRepository.deleteCartById(cartId);
     }
+    // CartService.java
     public void deleteCartByUserId(UUID userId) {
-        Cart cart = getCartByUserId(userId);
-        cartRepository.deleteCartById(cart.getId());
-    }
-
-    // Add a product to a user's cart
-    public void addProductToCart(UUID userId, Product product) {
-        Cart cart = getCartByUserId(userId);
-        if (cart != null) {
-            cartRepository.addProductToCart(cart.getId(), product);
-        } else {
-            throw new IllegalArgumentException("Cart not found for user: " + userId);
+        try {
+            Cart cart = getCartByUserId(userId);
+            cartRepository.deleteCartById(cart.getId());
+        } catch (IllegalArgumentException e) {
+            // Silent catch for missing cart
         }
     }
 
+    public void addProductToCart(UUID userId, Product product) {
+        Cart cart;
+        try {
+             cart = getCartByUserId(userId);
+        } catch (IllegalArgumentException e) {
+            // Create new cart if none exists
+            cart = new Cart(userId);
+            cartRepository.addCart(cart);
+        }
+        cartRepository.addProductToCart(cart.getId(), product);
+    }
+
     // Remove a product from a user's cart
-    public void deleteProductFromCart(UUID userId, Product product) {
-        Cart cart = getCartByUserId(userId);
+    public void deleteProductFromCart(UUID cartId, Product product) {
+        Cart cart = getCartByUserId(cartId);
         if (cart != null) {
             cartRepository.deleteProductFromCart(cart.getId(), product);
         } else {
-            throw new IllegalArgumentException("Cart not found for user: " + userId);
+            throw new IllegalArgumentException("Cart not found for user: " + cartId);
         }
     }
 }

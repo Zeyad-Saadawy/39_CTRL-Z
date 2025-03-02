@@ -74,13 +74,11 @@ public class CartService {
     public void deleteCartById(UUID cartId) {
         cartRepository.deleteCartById(cartId);
     }
-    // CartService.java
+
     public void deleteCartByUserId(UUID userId) {
-        try {
-            Cart cart = getCartByUserId(userId);
+        Cart cart = cartRepository.getCartByUserId(userId);
+        if (cart != null) {
             cartRepository.deleteCartById(cart.getId());
-        } catch (IllegalArgumentException e) {
-            // Silent catch for missing cart
         }
     }
 

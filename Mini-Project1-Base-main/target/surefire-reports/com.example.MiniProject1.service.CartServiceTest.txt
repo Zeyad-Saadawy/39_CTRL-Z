@@ -1,8 +1,8 @@
 -------------------------------------------------------------------------------
 Test set: com.example.MiniProject1.service.CartServiceTest
 -------------------------------------------------------------------------------
-Tests run: 12, Failures: 4, Errors: 8, Skipped: 0, Time elapsed: 0.049 s <<< FAILURE! -- in com.example.MiniProject1.service.CartServiceTest
-com.example.MiniProject1.service.CartServiceTest.testAddCart_StoredCorrectly -- Time elapsed: 0.002 s <<< ERROR!
+Tests run: 12, Failures: 4, Errors: 8, Skipped: 0, Time elapsed: 0.017 s <<< FAILURE! -- in com.example.MiniProject1.service.CartServiceTest
+com.example.MiniProject1.service.CartServiceTest.testAddCart_StoredCorrectly -- Time elapsed: 0.001 s <<< ERROR!
 java.lang.NullPointerException
 	at java.base/java.io.File.<init>(File.java:278)
 	at com.example.repository.MainRepository.findAll(MainRepository.java:29)
@@ -13,7 +13,7 @@ java.lang.NullPointerException
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 
-com.example.MiniProject1.service.CartServiceTest.testGetCarts_EnsuresCorrectFormat -- Time elapsed: 0.002 s <<< ERROR!
+com.example.MiniProject1.service.CartServiceTest.testGetCarts_EnsuresCorrectFormat -- Time elapsed: 0 s <<< ERROR!
 java.lang.NullPointerException
 	at java.base/java.io.File.<init>(File.java:278)
 	at com.example.repository.MainRepository.findAll(MainRepository.java:29)
@@ -23,7 +23,7 @@ java.lang.NullPointerException
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 
-com.example.MiniProject1.service.CartServiceTest.addCart -- Time elapsed: 0.007 s <<< ERROR!
+com.example.MiniProject1.service.CartServiceTest.addCart -- Time elapsed: 0 s <<< ERROR!
 java.lang.NullPointerException
 	at java.base/java.io.File.<init>(File.java:278)
 	at com.example.repository.MainRepository.findAll(MainRepository.java:29)
@@ -34,7 +34,7 @@ java.lang.NullPointerException
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 
-com.example.MiniProject1.service.CartServiceTest.testGetCartById_ReturnsCorrectCart -- Time elapsed: 0.002 s <<< ERROR!
+com.example.MiniProject1.service.CartServiceTest.testGetCartById_ReturnsCorrectCart -- Time elapsed: 0 s <<< ERROR!
 java.lang.NullPointerException
 	at java.base/java.io.File.<init>(File.java:278)
 	at com.example.repository.MainRepository.findAll(MainRepository.java:29)
@@ -45,7 +45,7 @@ java.lang.NullPointerException
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 
-com.example.MiniProject1.service.CartServiceTest.testGetCartById_ThrowsException_WhenIdIsNull -- Time elapsed: 0.004 s <<< FAILURE!
+com.example.MiniProject1.service.CartServiceTest.testGetCartById_ThrowsException_WhenIdIsNull -- Time elapsed: 0 s <<< FAILURE!
 org.opentest4j.AssertionFailedError: Unexpected exception type thrown, expected: <java.lang.IllegalArgumentException> but was: <java.lang.NullPointerException>
 	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
 	at org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:67)
@@ -75,7 +75,7 @@ java.lang.NullPointerException
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 
-com.example.MiniProject1.service.CartServiceTest.testGetCarts_ReturnsAllCarts -- Time elapsed: 0.005 s <<< ERROR!
+com.example.MiniProject1.service.CartServiceTest.testGetCarts_ReturnsAllCarts -- Time elapsed: 0 s <<< ERROR!
 java.lang.NullPointerException
 	at java.base/java.io.File.<init>(File.java:278)
 	at com.example.repository.MainRepository.findAll(MainRepository.java:29)
@@ -86,7 +86,7 @@ java.lang.NullPointerException
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 
-com.example.MiniProject1.service.CartServiceTest.testGetCartById_ThrowsException_WhenCartNotFound -- Time elapsed: 0.002 s <<< FAILURE!
+com.example.MiniProject1.service.CartServiceTest.testGetCartById_ThrowsException_WhenCartNotFound -- Time elapsed: 0 s <<< FAILURE!
 org.opentest4j.AssertionFailedError: Unexpected exception type thrown, expected: <java.lang.IllegalArgumentException> but was: <java.lang.NullPointerException>
 	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
 	at org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:67)
@@ -105,7 +105,7 @@ Caused by: java.lang.NullPointerException
 	at org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:53)
 	... 6 more
 
-com.example.MiniProject1.service.CartServiceTest.testGetCartByUserId_ThrowsException_WhenUserIdIsNull -- Time elapsed: 0.004 s <<< FAILURE!
+com.example.MiniProject1.service.CartServiceTest.testGetCartByUserId_ThrowsException_WhenUserIdIsNull -- Time elapsed: 0.005 s <<< FAILURE!
 org.opentest4j.AssertionFailedError: Unexpected exception type thrown, expected: <java.lang.IllegalArgumentException> but was: <java.lang.NullPointerException>
 	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
 	at org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:67)

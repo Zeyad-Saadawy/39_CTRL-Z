@@ -23,6 +23,9 @@ public class OrderService extends MainService<Order> {
 
     // Add Order
     public void addOrder(Order order) {
+        if (order == null) {
+            throw new IllegalArgumentException("Order cannot be null");
+        }
         orderRepository.addOrder(order); // Delegate to the repository's addOrder method
     }
 

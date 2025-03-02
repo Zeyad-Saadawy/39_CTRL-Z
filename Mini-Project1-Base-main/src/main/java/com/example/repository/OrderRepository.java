@@ -1,6 +1,7 @@
 package com.example.repository;
 
 import com.example.model.Order;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -14,11 +15,13 @@ public class OrderRepository extends MainRepository<Order> {
         super();
     }
 
-    @Override
-    protected String getDataPath() {
-        return "orders.json"; // Path to the JSON file storing orders
-    }
+    @Value("${spring.application.orderDataPath}")
+    private String orderDataPath; // Injected from application.properties
 
+    @Override
+    public String getDataPath() {
+        return orderDataPath;
+    }
     @Override
     protected Class<Order[]> getArrayType() {
         return Order[].class; // Array type for deserialization

@@ -123,9 +123,14 @@ public class UserServiceTest {
 
     @Test
     void addOrderToUser_CreatesValidOrder() {
-        // Add product to cart using setters
+        // Setup cart with product
         testCart.getProducts().add(testProduct);
+
+        // Mock cart retrieval
         when(cartService.getCartByUserId(userId)).thenReturn(testCart);
+
+        // Mock price calculation
+        when(cartService.calculateTotalPrice(testCart)).thenReturn(99.99); // Add this line
 
         ArgumentCaptor<Order> orderCaptor = ArgumentCaptor.forClass(Order.class);
 
@@ -134,12 +139,11 @@ public class UserServiceTest {
         verify(orderService).addOrder(orderCaptor.capture());
         Order createdOrder = orderCaptor.getValue();
 
-        // Verify order details using getters
-        assertEquals(userId, createdOrder.getUserId(), "Order should belong to correct user");
-        assertEquals(99.99, createdOrder.getTotalPrice(), 0.001, "Order total should match cart total");
-        assertEquals(1, createdOrder.getProducts().size(), "Should contain cart products");
+        assertEquals(userId, createdOrder.getUserId());
+        assertEquals(99.99, createdOrder.getTotalPrice(), 0.001); // Now matches
+        assertEquals(1, createdOrder.getProducts().size());
 
-        verify(cartService, times(1)).emptyCart(userId);
+        verify(cartService).emptyCart(userId);
     }
 
     @Test

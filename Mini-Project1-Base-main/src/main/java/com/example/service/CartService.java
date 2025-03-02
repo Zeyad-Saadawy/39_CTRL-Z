@@ -55,12 +55,10 @@ public class CartService {
         return cart;
     }
 
-
     public void emptyCart(UUID userId) {
         Cart cart = getCartByUserId(userId);
-        // delete the cart and create a new one
-        cartRepository.deleteCartById(cart.getId());
-        cartRepository.addCart(new Cart(userId));
+        cart.getProducts().clear();
+        cartRepository.save(cart); // Update existing cart
     }
 
     public double calculateTotalPrice(Cart cart) {
@@ -73,12 +71,36 @@ public class CartService {
                 .sum();
     }
 
-    public void deleteCartById(UUID userId) {
-        Cart cart = getCartByUserId(userId);
+    public void deleteCartById(UUID cartId) {
+        cartRepository.deleteCartById(cartId);
+    }
+
+    public void deleteCartByUserId(UUID userId) {
+        Cart cart = cartRepository.getCartByUserId(userId);
         if (cart != null) {
             cartRepository.deleteCartById(cart.getId());
+        }
+    }
+
+    public void addProductToCart(UUID userId, Product product) {
+        Cart cart;
+        try {
+             cart = getCartByUserId(userId);
+        } catch (IllegalArgumentException e) {
+            // Create new cart if none exists
+            cart = new Cart(userId);
+            cartRepository.addCart(cart);
+        }
+        cartRepository.addProductToCart(cart.getId(), product);
+    }
+
+    // Remove a product from a user's cart
+    public void deleteProductFromCart(UUID cartId, Product product) {
+        Cart cart = getCartByUserId(cartId);
+        if (cart != null) {
+            cartRepository.deleteProductFromCart(cart.getId(), product);
         } else {
-            throw new IllegalArgumentException("Cart not found for user: " + userId);
+            throw new IllegalArgumentException("Cart not found for user: " + cartId);
         }
     }
 }

@@ -69,9 +69,14 @@ public class UserRepository extends MainRepository<User> {
 
     public void deleteUserById(UUID userId) {
         ArrayList<User> users = findAll();
+        int initialSize = users.size();
         users.removeIf(user -> user.getId().equals(userId));
+        if (users.size() == initialSize) {
+            throw new IllegalArgumentException("User not found with ID: " + userId);
+        }
         overrideData(users);
     }
+
 
     private void updateUser(User user) {
         ArrayList<User> users = findAll();

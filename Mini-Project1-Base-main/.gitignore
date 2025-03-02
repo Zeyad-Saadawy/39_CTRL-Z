@@ -1,0 +1,24 @@
+# Ignore build directories
+target/
+build/
+
+# Ignore IDE files
+*.iml
+.idea/
+.vscode/
+
+# Ignore dependencies
+*.jar
+*.war
+*.ear
+
+# Ignore OS-specific files
+.DS_Store
+Thumbs.db
+
+# Ignore log and temp files
+*.log
+*.tmp
+
+# Ignore JSON storage files (if applicable)
+data/*.json

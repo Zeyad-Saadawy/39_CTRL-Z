@@ -1,41 +1,8 @@
 -------------------------------------------------------------------------------
 Test set: com.example.MiniProject1.MiniProject1ApplicationTests
 -------------------------------------------------------------------------------
-Tests run: 27, Failures: 4, Errors: 4, Skipped: 0, Time elapsed: 4.000 s <<< FAILURE! -- in com.example.MiniProject1.MiniProject1ApplicationTests
-com.example.MiniProject1.MiniProject1ApplicationTests.testApplyDiscountEndPoint -- Time elapsed: 0.026 s <<< FAILURE!
-java.lang.AssertionError: Response content expected:<Discount applied successfully> but was:<Discount applied successfully!>
-	at org.springframework.test.util.AssertionErrors.fail(AssertionErrors.java:61)
-	at org.springframework.test.util.AssertionErrors.assertEquals(AssertionErrors.java:128)
-	at org.springframework.test.web.servlet.result.ContentResultMatchers.lambda$string$4(ContentResultMatchers.java:148)
-	at org.springframework.test.web.servlet.MockMvc$1.andExpect(MockMvc.java:214)
-	at com.example.MiniProject1.MiniProject1ApplicationTests.testApplyDiscountEndPoint(MiniProject1ApplicationTests.java:581)
-	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
-	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
-	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
-
-com.example.MiniProject1.MiniProject1ApplicationTests.testDeleteProductByIdEndPoint1 -- Time elapsed: 0.011 s <<< FAILURE!
-java.lang.AssertionError: Response content expected:<Product deleted successfully> but was:<Product deleted successfully!>
-	at org.springframework.test.util.AssertionErrors.fail(AssertionErrors.java:61)
-	at org.springframework.test.util.AssertionErrors.assertEquals(AssertionErrors.java:128)
-	at org.springframework.test.web.servlet.result.ContentResultMatchers.lambda$string$4(ContentResultMatchers.java:148)
-	at org.springframework.test.web.servlet.MockMvc$1.andExpect(MockMvc.java:214)
-	at com.example.MiniProject1.MiniProject1ApplicationTests.testDeleteProductByIdEndPoint1(MiniProject1ApplicationTests.java:595)
-	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
-	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
-	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
-
-com.example.MiniProject1.MiniProject1ApplicationTests.testAddOrderToUserEndPoint -- Time elapsed: 0.033 s <<< FAILURE!
-java.lang.AssertionError: Response content expected:<Order added successfully> but was:<Order placed successfully>
-	at org.springframework.test.util.AssertionErrors.fail(AssertionErrors.java:61)
-	at org.springframework.test.util.AssertionErrors.assertEquals(AssertionErrors.java:128)
-	at org.springframework.test.web.servlet.result.ContentResultMatchers.lambda$string$4(ContentResultMatchers.java:148)
-	at org.springframework.test.web.servlet.MockMvc$1.andExpect(MockMvc.java:214)
-	at com.example.MiniProject1.MiniProject1ApplicationTests.testAddOrderToUserEndPoint(MiniProject1ApplicationTests.java:358)
-	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
-	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
-	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
-
-com.example.MiniProject1.MiniProject1ApplicationTests.testUpdateProductEndPoint -- Time elapsed: 0.031 s <<< ERROR!
+Tests run: 27, Failures: 1, Errors: 4, Skipped: 0, Time elapsed: 2.869 s <<< FAILURE! -- in com.example.MiniProject1.MiniProject1ApplicationTests
+com.example.MiniProject1.MiniProject1ApplicationTests.testUpdateProductEndPoint -- Time elapsed: 0.020 s <<< ERROR!
 jakarta.servlet.ServletException: Request processing failed: java.lang.NullPointerException: Cannot invoke "java.lang.Double.doubleValue()" because the return value of "java.util.Map.get(Object)" is null
 	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1022)
 	at org.springframework.web.servlet.FrameworkServlet.doPut(FrameworkServlet.java:925)
@@ -77,7 +44,7 @@ Caused by: java.lang.NullPointerException: Cannot invoke "java.lang.Double.doubl
 	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014)
 	... 24 more
 
-com.example.MiniProject1.MiniProject1ApplicationTests.testDeleteProductFromCartEndPoint1 -- Time elapsed: 0.002 s <<< ERROR!
+com.example.MiniProject1.MiniProject1ApplicationTests.testDeleteProductFromCartEndPoint1 -- Time elapsed: 0.007 s <<< ERROR!
 jakarta.servlet.ServletException: Request processing failed: java.lang.IllegalArgumentException: Cart not found 
 	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1022)
 	at org.springframework.web.servlet.FrameworkServlet.doPut(FrameworkServlet.java:925)
@@ -121,7 +88,7 @@ Caused by: java.lang.IllegalArgumentException: Cart not found
 	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014)
 	... 24 more
 
-com.example.MiniProject1.MiniProject1ApplicationTests.testDeleteProductFromCartEndPoint2 -- Time elapsed: 0.004 s <<< ERROR!
+com.example.MiniProject1.MiniProject1ApplicationTests.testDeleteProductFromCartEndPoint2 -- Time elapsed: 0.006 s <<< ERROR!
 jakarta.servlet.ServletException: Request processing failed: java.lang.IllegalArgumentException: Cart not found 
 	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1022)
 	at org.springframework.web.servlet.FrameworkServlet.doPut(FrameworkServlet.java:925)
@@ -164,7 +131,7 @@ Caused by: java.lang.IllegalArgumentException: Cart not found
 	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014)
 	... 24 more
 
-com.example.MiniProject1.MiniProject1ApplicationTests.testAddProductToCartEndPoint -- Time elapsed: 0.003 s <<< ERROR!
+com.example.MiniProject1.MiniProject1ApplicationTests.testAddProductToCartEndPoint -- Time elapsed: 0.006 s <<< ERROR!
 jakarta.servlet.ServletException: Request processing failed: java.lang.IllegalArgumentException: Cart not found 
 	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1022)
 	at org.springframework.web.servlet.FrameworkServlet.doPut(FrameworkServlet.java:925)
@@ -207,7 +174,7 @@ Caused by: java.lang.IllegalArgumentException: Cart not found
 	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014)
 	... 24 more
 
-com.example.MiniProject1.MiniProject1ApplicationTests.testDeleteCartByIdEndPoint -- Time elapsed: 0.023 s <<< FAILURE!
+com.example.MiniProject1.MiniProject1ApplicationTests.testDeleteCartByIdEndPoint -- Time elapsed: 0.012 s <<< FAILURE!
 java.lang.AssertionError: Status expected:<200> but was:<404>
 	at org.springframework.test.util.AssertionErrors.fail(AssertionErrors.java:61)
 	at org.springframework.test.util.AssertionErrors.assertEquals(AssertionErrors.java:128)

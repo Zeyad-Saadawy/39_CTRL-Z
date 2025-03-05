@@ -26,6 +26,7 @@ public class UserRepository extends MainRepository<User> {
 
     // Custom methods
     public ArrayList<User> getUsers() {
+
         return findAll();
     }
 

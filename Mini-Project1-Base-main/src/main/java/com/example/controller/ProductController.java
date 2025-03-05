@@ -46,13 +46,13 @@ public class ProductController {
     @PutMapping("/applyDiscount")
     public String applyDiscount(@RequestParam double discount, @RequestBody ArrayList<UUID> productIds) {
         productService.applyDiscount(discount, productIds);
-        return "Discount applied successfully!";
+        return "Discount applied successfully";
     }
 
     // Delete a product by ID
     @DeleteMapping("/delete/{productId}")
     public String deleteProductById(@PathVariable UUID productId) {
         productService.deleteProductById(productId);
-        return "Product deleted successfully!";
+        return "Product deleted successfully";
     }
 }

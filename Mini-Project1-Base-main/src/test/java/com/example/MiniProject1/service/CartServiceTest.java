@@ -5,22 +5,43 @@ import com.example.repository.CartRepository;
 import com.example.service.CartService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.List;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@SpringBootTest
+@TestPropertySource(locations = "classpath:application.properties")
 public class CartServiceTest {
 
-
+    @Autowired
     private CartRepository cartRepository;
+    @Autowired
     private CartService cartService;
+    @Value("${spring.application.cartDataPath}")
+    private String cartDataPath;
 
     @BeforeEach
     void setUp() {
         cartRepository = new CartRepository();
         cartService = new CartService(cartRepository);
+    }
+
+    @BeforeEach
+    void setup() {
+        ReflectionTestUtils.setField(cartRepository, "cartDataPath", "src/main/java/com/example/data/carts.json");
+        System.out.println("Injected cartDataPath: " + cartRepository.getDataPath());
+    }
+
+    @Test
+    void checkIfPropertyIsLoaded() {
+        System.out.println("Test Cart Data Path: " + cartDataPath);
     }
 
     @Test
@@ -58,17 +79,23 @@ public class CartServiceTest {
 
     @Test
     void testAddCart_StoredCorrectly() {
+
+        // Print the cartDataPath before anything else
+        System.out.println("cartDataPath: " + cartDataPath);
         // Arrange
         UUID userId = UUID.randomUUID();
         Cart cart = new Cart(userId);
 
 
+        // Print before adding the cart
+        System.out.println("Adding cart with userId: " + userId);
         Cart addedCart = cartService.addCart(cart);
 
-
+        // Check if cart was added successfully
+        System.out.println("Cart added with ID: " + addedCart.getId());
         Cart retrievedCart = cartService.getCartById(addedCart.getId());
 
-
+        System.out.println("Retrieved cart: " + retrievedCart);
         assertNotNull(retrievedCart);
         assertEquals(addedCart.getId(), retrievedCart.getId());
         assertEquals(userId, retrievedCart.getUserId());

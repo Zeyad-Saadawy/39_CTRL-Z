@@ -32,7 +32,7 @@ public class CartService {
     }
 
     public List<Cart> getCarts() {
-        return cartRepository.findAll();
+        return cartRepository.getCarts();
     }
 
     public Cart getCartById(UUID cartId) {

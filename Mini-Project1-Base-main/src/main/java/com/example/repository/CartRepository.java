@@ -6,21 +6,25 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Repository
-@SuppressWarnings("rawtypes")
+//@SuppressWarnings("rawtypes")
 public class CartRepository extends MainRepository<Cart>{
 
-    public CartRepository(){
+    public CartRepository(){  super();
     }
 
 
     @Value("${spring.application.cartDataPath}")
-    private String cartDataPath; // Injected from application.properties
+    private String cartDataPath;
+
 
     @Override
     public String getDataPath() {
+        System.out.println("CartRepository getDataPath(): " + cartDataPath);
+
         return cartDataPath;
     }
 
@@ -34,6 +38,7 @@ public class CartRepository extends MainRepository<Cart>{
     public ArrayList<Cart> getCarts() {
         return findAll();
     }
+
 
     public Cart addCart(Cart cart) {
         save(cart);

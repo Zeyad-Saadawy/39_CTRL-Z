@@ -1,50 +1,8 @@
 -------------------------------------------------------------------------------
 Test set: com.example.MiniProject1.MiniProject1ApplicationTests
 -------------------------------------------------------------------------------
-Tests run: 27, Failures: 1, Errors: 4, Skipped: 0, Time elapsed: 2.869 s <<< FAILURE! -- in com.example.MiniProject1.MiniProject1ApplicationTests
-com.example.MiniProject1.MiniProject1ApplicationTests.testUpdateProductEndPoint -- Time elapsed: 0.020 s <<< ERROR!
-jakarta.servlet.ServletException: Request processing failed: java.lang.NullPointerException: Cannot invoke "java.lang.Double.doubleValue()" because the return value of "java.util.Map.get(Object)" is null
-	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1022)
-	at org.springframework.web.servlet.FrameworkServlet.doPut(FrameworkServlet.java:925)
-	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:593)
-	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885)
-	at org.springframework.test.web.servlet.TestDispatcherServlet.service(TestDispatcherServlet.java:72)
-	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
-	at org.springframework.mock.web.MockFilterChain$ServletFilterProxy.doFilter(MockFilterChain.java:165)
-	at org.springframework.mock.web.MockFilterChain.doFilter(MockFilterChain.java:132)
-	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
-	at org.springframework.test.web.servlet.setup.MockMvcFilterDecorator.doFilter(MockMvcFilterDecorator.java:162)
-	at org.springframework.mock.web.MockFilterChain.doFilter(MockFilterChain.java:132)
-	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
-	at org.springframework.test.web.servlet.setup.MockMvcFilterDecorator.doFilter(MockMvcFilterDecorator.java:162)
-	at org.springframework.mock.web.MockFilterChain.doFilter(MockFilterChain.java:132)
-	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
-	at org.springframework.test.web.servlet.setup.MockMvcFilterDecorator.doFilter(MockMvcFilterDecorator.java:162)
-	at org.springframework.mock.web.MockFilterChain.doFilter(MockFilterChain.java:132)
-	at org.springframework.test.web.servlet.MockMvc.perform(MockMvc.java:201)
-	at com.example.MiniProject1.MiniProject1ApplicationTests.testUpdateProductEndPoint(MiniProject1ApplicationTests.java:554)
-	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
-	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
-	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
-Caused by: java.lang.NullPointerException: Cannot invoke "java.lang.Double.doubleValue()" because the return value of "java.util.Map.get(Object)" is null
-	at com.example.controller.ProductController.updateProduct(ProductController.java:41)
-	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
-	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
-	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:257)
-	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:190)
-	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:118)
-	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:986)
-	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:891)
-	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
-	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1088)
-	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:978)
-	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014)
-	... 24 more
-
-com.example.MiniProject1.MiniProject1ApplicationTests.testDeleteProductFromCartEndPoint1 -- Time elapsed: 0.007 s <<< ERROR!
+Tests run: 27, Failures: 1, Errors: 3, Skipped: 0, Time elapsed: 2.053 s <<< FAILURE! -- in com.example.MiniProject1.MiniProject1ApplicationTests
+com.example.MiniProject1.MiniProject1ApplicationTests.testDeleteProductFromCartEndPoint1 -- Time elapsed: 0.013 s <<< ERROR!
 jakarta.servlet.ServletException: Request processing failed: java.lang.IllegalArgumentException: Cart not found 
 	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1022)
 	at org.springframework.web.servlet.FrameworkServlet.doPut(FrameworkServlet.java:925)
@@ -88,7 +46,7 @@ Caused by: java.lang.IllegalArgumentException: Cart not found
 	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014)
 	... 24 more
 
-com.example.MiniProject1.MiniProject1ApplicationTests.testDeleteProductFromCartEndPoint2 -- Time elapsed: 0.006 s <<< ERROR!
+com.example.MiniProject1.MiniProject1ApplicationTests.testDeleteProductFromCartEndPoint2 -- Time elapsed: 0.005 s <<< ERROR!
 jakarta.servlet.ServletException: Request processing failed: java.lang.IllegalArgumentException: Cart not found 
 	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1022)
 	at org.springframework.web.servlet.FrameworkServlet.doPut(FrameworkServlet.java:925)
@@ -174,7 +132,7 @@ Caused by: java.lang.IllegalArgumentException: Cart not found
 	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014)
 	... 24 more
 
-com.example.MiniProject1.MiniProject1ApplicationTests.testDeleteCartByIdEndPoint -- Time elapsed: 0.012 s <<< FAILURE!
+com.example.MiniProject1.MiniProject1ApplicationTests.testDeleteCartByIdEndPoint -- Time elapsed: 0.007 s <<< FAILURE!
 java.lang.AssertionError: Status expected:<200> but was:<404>
 	at org.springframework.test.util.AssertionErrors.fail(AssertionErrors.java:61)
 	at org.springframework.test.util.AssertionErrors.assertEquals(AssertionErrors.java:128)

@@ -32,6 +32,16 @@ public class ProductService extends MainService<Product> {
 
     // Update a product
     public Product updateProduct(UUID productId, String newName, double newPrice) {
+        Product existingProduct = productRepository.getProductById(productId);
+
+        if (existingProduct == null) {
+            throw new IllegalArgumentException("Product not found");
+        }
+
+        if (newPrice < 0) {
+            throw new IllegalArgumentException("Price cannot be negative");
+        }
+
         return productRepository.updateProduct(productId, newName, newPrice);
     }
 

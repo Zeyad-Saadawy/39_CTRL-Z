@@ -37,8 +37,13 @@ public class ProductController {
     // Update a product
     @PutMapping("/update/{productId}")
     public Product updateProduct(@PathVariable UUID productId, @RequestBody Map<String, Object> body) {
-        String newName = (String) body.get("name");
-        double newPrice = (double) body.get("price");
+        if (!body.containsKey("newName") && !body.containsKey("newPrice")) {
+            throw new IllegalArgumentException("At least one of 'newName' or 'newPrice' must be provided.");
+        }
+
+        String newName = body.containsKey("newName") ? (String) body.get("newName") : null;
+        Double newPrice = body.containsKey("newPrice") ? ((Number) body.get("newPrice")).doubleValue() : null;
+
         return productService.updateProduct(productId, newName, newPrice);
     }
 

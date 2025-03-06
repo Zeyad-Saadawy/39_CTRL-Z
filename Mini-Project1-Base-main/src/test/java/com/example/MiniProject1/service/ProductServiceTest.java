@@ -136,7 +136,8 @@ public class ProductServiceTest {
         Product updatedProduct = new Product("New Laptop", 1200.0);
         updatedProduct.setId(productId);
 
-        // Mock the repository to return the updated product
+        // Mock the repository to return the existing product before updating
+        when(productRepository.getProductById(productId)).thenReturn(product);
         when(productRepository.updateProduct(productId, "New Laptop", 1200.0)).thenReturn(updatedProduct);
 
         // Call the service method
@@ -144,30 +145,42 @@ public class ProductServiceTest {
 
         // Verify the results
         assertNotNull(result);
-        assertEquals("New Laptop", result.getName()); // Ensure the name is updated
-        assertEquals(1200.0, result.getPrice(), 0.001); // Ensure the price is updated
+        assertEquals("New Laptop", result.getName());
+        assertEquals(1200.0, result.getPrice(), 0.001);
+        verify(productRepository, times(1)).getProductById(productId);
         verify(productRepository, times(1)).updateProduct(productId, "New Laptop", 1200.0);
     }
     @Test
     public void testUpdateProduct_NotFound() {
         UUID productId = UUID.randomUUID();
-        when(productRepository.updateProduct(productId, "New Laptop", 1200.0)).thenReturn(null);
 
-        Product result = productService.updateProduct(productId, "New Laptop", 1200.0);
+        // Mock repository to return null when trying to fetch the product
+        when(productRepository.getProductById(productId)).thenReturn(null);
 
-        assertNull(result);
-        verify(productRepository, times(1)).updateProduct(productId, "New Laptop", 1200.0);
+        // Expect an exception since the product is not found
+        assertThrows(IllegalArgumentException.class, () -> productService.updateProduct(productId, "New Laptop", 1200.0));
+
+        verify(productRepository, times(1)).getProductById(productId);
+        verify(productRepository, times(0)).updateProduct(any(), any(), anyDouble()); // Ensure updateProduct is never called
     }
 
     @Test
     public void testUpdateProduct_InvalidData() {
         UUID productId = UUID.randomUUID();
-        when(productRepository.updateProduct(productId, "New Laptop", -1200.0)).thenReturn(null);
+        Product product = new Product("Laptop", 1000.0);
+        product.setId(productId);
 
-        Product result = productService.updateProduct(productId, "New Laptop", -1200.0);
+        // Mock the repository to return an existing product
+        when(productRepository.getProductById(productId)).thenReturn(product);
 
-        assertNull(result);
-        verify(productRepository, times(1)).updateProduct(productId, "New Laptop", -1200.0);
+        // Ensure an exception is thrown when updating with an invalid price
+        assertThrows(IllegalArgumentException.class, () -> productService.updateProduct(productId, "New Laptop", -1200.0));
+
+        // Verify that getProductById was called once
+        verify(productRepository, times(1)).getProductById(productId);
+
+        // Ensure updateProduct is NEVER called due to invalid price
+        verify(productRepository, never()).updateProduct(any(), any(), anyDouble());
     }
 
     @Test

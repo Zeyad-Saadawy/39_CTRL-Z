@@ -1,8 +1,8 @@
 -------------------------------------------------------------------------------
 Test set: com.example.MiniProject1.MiniProject1ApplicationTests
 -------------------------------------------------------------------------------
-Tests run: 27, Failures: 1, Errors: 3, Skipped: 0, Time elapsed: 2.053 s <<< FAILURE! -- in com.example.MiniProject1.MiniProject1ApplicationTests
-com.example.MiniProject1.MiniProject1ApplicationTests.testDeleteProductFromCartEndPoint1 -- Time elapsed: 0.013 s <<< ERROR!
+Tests run: 27, Failures: 1, Errors: 3, Skipped: 0, Time elapsed: 2.169 s <<< FAILURE! -- in com.example.MiniProject1.MiniProject1ApplicationTests
+com.example.MiniProject1.MiniProject1ApplicationTests.testDeleteProductFromCartEndPoint1 -- Time elapsed: 0.012 s <<< ERROR!
 jakarta.servlet.ServletException: Request processing failed: java.lang.IllegalArgumentException: Cart not found 
 	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1022)
 	at org.springframework.web.servlet.FrameworkServlet.doPut(FrameworkServlet.java:925)
@@ -46,7 +46,7 @@ Caused by: java.lang.IllegalArgumentException: Cart not found
 	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014)
 	... 24 more
 
-com.example.MiniProject1.MiniProject1ApplicationTests.testDeleteProductFromCartEndPoint2 -- Time elapsed: 0.005 s <<< ERROR!
+com.example.MiniProject1.MiniProject1ApplicationTests.testDeleteProductFromCartEndPoint2 -- Time elapsed: 0.012 s <<< ERROR!
 jakarta.servlet.ServletException: Request processing failed: java.lang.IllegalArgumentException: Cart not found 
 	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1022)
 	at org.springframework.web.servlet.FrameworkServlet.doPut(FrameworkServlet.java:925)
@@ -89,7 +89,7 @@ Caused by: java.lang.IllegalArgumentException: Cart not found
 	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014)
 	... 24 more
 
-com.example.MiniProject1.MiniProject1ApplicationTests.testAddProductToCartEndPoint -- Time elapsed: 0.006 s <<< ERROR!
+com.example.MiniProject1.MiniProject1ApplicationTests.testAddProductToCartEndPoint -- Time elapsed: 0.007 s <<< ERROR!
 jakarta.servlet.ServletException: Request processing failed: java.lang.IllegalArgumentException: Cart not found 
 	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1022)
 	at org.springframework.web.servlet.FrameworkServlet.doPut(FrameworkServlet.java:925)
@@ -132,7 +132,7 @@ Caused by: java.lang.IllegalArgumentException: Cart not found
 	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014)
 	... 24 more
 
-com.example.MiniProject1.MiniProject1ApplicationTests.testDeleteCartByIdEndPoint -- Time elapsed: 0.007 s <<< FAILURE!
+com.example.MiniProject1.MiniProject1ApplicationTests.testDeleteCartByIdEndPoint -- Time elapsed: 0.009 s <<< FAILURE!
 java.lang.AssertionError: Status expected:<200> but was:<404>
 	at org.springframework.test.util.AssertionErrors.fail(AssertionErrors.java:61)
 	at org.springframework.test.util.AssertionErrors.assertEquals(AssertionErrors.java:128)

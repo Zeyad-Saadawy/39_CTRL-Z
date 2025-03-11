@@ -118,6 +118,21 @@ public class UserServiceTest {
     }
 
     // ... [Keep other getUsers() tests unchanged] ...
+    @Test
+    void deleteUserById_DeletesUserSuccessfully() {
+        // Arrange
+        UUID userId = UUID.randomUUID();
+
+        // Mock the behavior of userRepository.deleteUserById
+        doNothing().when(userRepository).deleteUserById(userId);
+
+        // Act
+        userService.deleteUserById(userId);
+
+        // Assert
+        verify(userRepository, times(1)).deleteUserById(userId); // Verify user is deleted
+        verifyNoInteractions(cartService); // Ensure cartService is not called
+    }
 
     // === addOrderToUser() Tests ===
 
@@ -165,20 +180,6 @@ public class UserServiceTest {
 
     // === deleteUserById() Tests ===
 
-    @Test
-    void deleteUserById_CleansUpResources() {
-        // Initialize user via setters
-        User user = new User();
-        user.setId(userId);
-        user.setName("Test User");
-
-        doNothing().when(userRepository).deleteUserById(userId);
-        doNothing().when(cartService).deleteCartByUserId(userId);
-
-        userService.deleteUserById(userId);
-        verify(userRepository, times(1)).deleteUserById(userId);
-        verify(cartService, times(1)).deleteCartByUserId(userId);
-    }
 
     // === Other Test Methods ===
     // [Keep all other tests with similar modifications to use setters]
@@ -210,4 +211,9 @@ public class UserServiceTest {
         userService.emptyCart(userId);
         verify(cartService, times(1)).emptyCart(userId);
     }
+
+
+
+
+
 }

@@ -6,25 +6,21 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 @Repository
-//@SuppressWarnings("rawtypes")
+@SuppressWarnings("rawtypes")
 public class CartRepository extends MainRepository<Cart>{
 
-    public CartRepository(){  super();
+    public CartRepository(){
     }
 
 
     @Value("${spring.application.cartDataPath}")
-    private String cartDataPath;
-
+    private String cartDataPath; // Injected from application.properties
 
     @Override
     public String getDataPath() {
-        System.out.println("CartRepository getDataPath(): " + cartDataPath);
-
         return cartDataPath;
     }
 
@@ -38,7 +34,6 @@ public class CartRepository extends MainRepository<Cart>{
     public ArrayList<Cart> getCarts() {
         return findAll();
     }
-
 
     public Cart addCart(Cart cart) {
         save(cart);
@@ -54,15 +49,10 @@ public class CartRepository extends MainRepository<Cart>{
 
 
     }
-    public Cart getCartByUserId(UUID userId) {
-        ArrayList<Cart> carts = getCarts();
-        if (carts.isEmpty()) {
-            System.out.println("No carts found in the system.");
-            return null;
-        }
 
-        return carts.stream()
-                .filter(cart -> cart.getUserId() != null && cart.getUserId().equals(userId))
+    public Cart getCartByUserId(UUID userId) {
+        return findAll().stream()
+                .filter(cart -> cart.getUserId().equals(userId))
                 .findFirst()
                 .orElse(null);
     }
@@ -76,7 +66,6 @@ public class CartRepository extends MainRepository<Cart>{
     public void addProductToCart(UUID cartId, Product product) {
         ArrayList<Cart> carts = getCarts();
         boolean cartFound = false;
-
         for (Cart cart : carts) {
             if (cart.getId().equals(cartId)) {
                 cart.getProducts().add(product);
@@ -84,28 +73,20 @@ public class CartRepository extends MainRepository<Cart>{
                 break;
             }
         }
-
         if (!cartFound) {
-            throw new IllegalArgumentException("Cart not found with ID: " + cartId);
+            throw new IllegalArgumentException("Cart not found");
         }
         overrideData(carts);
     }
 
     public void deleteProductFromCart(UUID cartId, Product product) {
         ArrayList<Cart> carts = getCarts();
-        boolean cartFound = false;
         for (Cart cart : carts) {
             if (cart.getId().equals(cartId)) {
-                // Remove the product by comparing IDs (or use equals() if properly overridden)
                 cart.getProducts().removeIf(p -> p.getId().equals(product.getId()));
-                cartFound = true;
                 break;
             }
         }
-        if (!cartFound) {
-            throw new IllegalArgumentException("Cart not found with ID: " + cartId);
-        }
-        // Persist the updated list of carts
         overrideData(carts);
     }
 

@@ -1,6 +1,7 @@
 package com.example.MiniProject1.service;
 
 import com.example.model.Cart;
+import com.example.model.Product;
 import com.example.repository.CartRepository;
 import com.example.service.CartService;
 import org.junit.jupiter.api.BeforeEach;
@@ -185,7 +186,7 @@ public class CartServiceTest {
             cartService.getCartById(randomId);
         });
 
-        assertEquals("Cart not found ", exception.getMessage());
+        assertEquals("Cart not found", exception.getMessage());
     }
 
     @Test
@@ -195,7 +196,7 @@ public class CartServiceTest {
             cartService.getCartById(null);
         });
 
-        assertEquals("Cart not found ", exception.getMessage());
+        assertEquals("Cart not found", exception.getMessage());
     }
 
     @Test
@@ -224,7 +225,7 @@ public class CartServiceTest {
             cartService.getCartByUserId(randomUserId);
         });
 
-        assertEquals("Cart not found ", exception.getMessage());
+        assertEquals("Cart not found", exception.getMessage());
     }
 
     @Test
@@ -234,8 +235,149 @@ public class CartServiceTest {
             cartService.getCartByUserId(null);
         });
 
-        assertEquals("Cart not found ", exception.getMessage());
+        assertEquals("Cart not found", exception.getMessage());
     }
+
+    @Test
+    void testAddProductToCart_Success() {
+        // Arrange
+        UUID userId = UUID.randomUUID();
+        Cart cart = new Cart(userId);
+        cartService.addCart(cart);
+
+        Product product = new Product(UUID.randomUUID(), "Laptop", 1200.0);
+
+        // Act
+        cartService.addProductToCart(cart.getId(), product);
+
+        // Assert
+        Cart updatedCart = cartService.getCartById(cart.getId());
+        assertNotNull(updatedCart);
+
+        boolean productFound = false;
+        for (Product p : updatedCart.getProducts()) {
+            if (p.getId().equals(product.getId())&& p.getName().equals(product.getName()) && p.getPrice()==(product.getPrice())) {
+                productFound = true;
+                break;
+            }
+        }
+        assertTrue(productFound);
+    }
+
+    @Test
+    void testAddProductToCart_CartNotFound() {
+        // Arrange
+        UUID nonExistentCartId = UUID.randomUUID();
+        Product product = new Product(UUID.randomUUID(), "Smartphone", 800.0);
+
+        // Act & Assert
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            cartService.addProductToCart(nonExistentCartId, product);
+        });
+
+        assertEquals("Cart not found", exception.getMessage());
+    }
+
+    @Test
+    void testAddProductToCart_NullProduct() {
+        // Arrange
+        UUID userId = UUID.randomUUID();
+        Cart cart = new Cart(userId);
+        cartService.addCart(cart);
+
+        // Act & Assert
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            cartService.addProductToCart(cart.getId(), null);
+        });
+
+        assertEquals("Product cannot be null", exception.getMessage());
+    }
+    @Test
+    void testDeleteProductFromCart_ProductExists() {
+        // Arrange
+        UUID userId = UUID.randomUUID();
+        Cart cart = new Cart(userId);
+        cartService.addCart(cart);
+
+        Product product = new Product(UUID.randomUUID(), "Tablet", 300.0);
+        cartService.addProductToCart(cart.getId(), product);
+
+        // Act
+        cartService.deleteProductFromCart(cart.getId(), product); // Uncomment this line
+
+        // Assert
+        Cart updatedCart = cartService.getCartById(cart.getId());
+        assertFalse(updatedCart.getProducts().contains(product)); // Check that the product is NOT in the cart
+    }
+    @Test
+    void testDeleteProductFromCart_CartNotFound() {
+        // Arrange
+        UUID nonExistentCartId = UUID.randomUUID();
+        Product product = new Product(UUID.randomUUID(), "Smartphone", 800.0);
+
+        // Act & Assert
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            cartService.deleteProductFromCart(nonExistentCartId, product);
+        });
+
+        assertEquals("Cart not found", exception.getMessage());
+    }
+    @Test
+    void testDeleteProductFromCart_ProductNotInCart() {
+        // Arrange
+        UUID userId = UUID.randomUUID();
+        Cart cart = new Cart(userId);
+        cartService.addCart(cart);
+
+        Product productNotInCart = new Product(UUID.randomUUID(), "Headphones", 200.0);
+
+        // Act & Assert
+        Exception exception = assertThrows(Exception.class, () -> {
+            cartService.deleteProductFromCart(cart.getId(), productNotInCart);
+        });
+
+        assertTrue(exception.getMessage().equals("Product not found in cart") || exception.getMessage().equals("Cart is empty"));    }
+    @Test
+    void testDeleteCartById_Success() {
+        // Arrange
+        UUID userId = UUID.randomUUID();
+        Cart cart = new Cart(userId);
+        cartService.addCart(cart);
+
+        // Act
+        cartService.deleteCartById(cart.getId());
+
+        // Assert
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            cartService.getCartById(cart.getId());
+        });
+
+        assertEquals("Cart not found", exception.getMessage());
+    }
+    @Test
+    void testDeleteCartById_CartNotFound() {
+        // Arrange
+        UUID nonExistentCartId = UUID.randomUUID();
+
+        // Act & Assert
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            cartService.deleteCartById(nonExistentCartId);
+        });
+
+        assertEquals("Cart not found", exception.getMessage());
+    }
+    @Test
+    void testDeleteCartById_NullCartId() {
+        // Act & Assert
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            cartService.deleteCartById(null);
+        });
+
+        assertEquals("Cart ID cannot be null", exception.getMessage());
+    }
+
+
+
 
 
 }

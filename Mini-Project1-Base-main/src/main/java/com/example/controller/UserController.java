@@ -32,6 +32,8 @@ public class UserController {
     // 8.1.2.1 Add User
     @PostMapping("/")
     public User addUser(@RequestBody User user) {
+
+
         return userService.addUser(user);
     }
 
@@ -77,39 +79,51 @@ public class UserController {
     // 8.1.2.8 Add Product To the Cart
     @PutMapping("/addProductToCart")
     public String addProductToCart(@RequestParam UUID userId, @RequestParam UUID productId) {
-        // Retrieve the user's cart; if none exists, create a new one.
-        Cart cart = cartService.getCartByUserId(userId);
-        if (cart == null) {
-            cart = cartService.addCart(new Cart(userId));
+        try {
+            Cart cart = cartService.getCartByUserId(userId);
+        } catch (IllegalArgumentException e) {
+            Cart cart = new Cart(userId);
+            cart.setId(UUID.randomUUID());
+            cartService.addCart(cart);
+
         }
-        // Retrieve the product by its ID.
+        Cart cart = cartService.getCartByUserId(userId);
+
         Product product = productService.getProductById(productId);
         if (product == null) {
             throw new IllegalArgumentException("Product not found with ID: " + productId);
         }
-        // Use the cart's ID along with the product instance.
         cartService.addProductToCart(cart.getId(), product);
-        return "Product added to cart successfully";
+        return "Product added to cart";
     }
 
     // 8.1.2.9 Delete Product from the Cart
     @PutMapping("/deleteProductFromCart")
     public String deleteProductFromCart(@RequestParam UUID userId, @RequestParam UUID productId) {
-        // Retrieve the user's cart.
-        Cart cart = cartService.getCartByUserId(userId);
-        if (cart == null) {
-            throw new IllegalArgumentException("Cart not found for user ID: " + userId);
+        Cart cart;
+        try {
+            cart = cartService.getCartByUserId(userId);
+        } catch (IllegalArgumentException e) {
+            cart = new Cart(userId);
+            cart.setId(UUID.randomUUID());
+            cartService.addCart(cart);
         }
-        // Retrieve the product by its ID.
+
         Product product = productService.getProductById(productId);
         if (product == null) {
-            throw new IllegalArgumentException("Product not found with ID: " + productId);
+            return "Product not found with ID: " + productId;
         }
-        // Use the cart's ID along with the product instance.
-        cartService.deleteProductFromCart(cart.getId(), product);
+
+        try {
+            cartService.deleteProductFromCart(cart.getId(), product);
+        } catch (IllegalArgumentException e) {
+            return "Product not found in cart";
+        } catch (RuntimeException e) {
+            return "Cart is empty";
+        }
+
         return "Product deleted from cart";
     }
-
     // 8.1.2.10 Delete User
     @DeleteMapping("/delete/{userId}")
     public String deleteUserById(@PathVariable UUID userId) {

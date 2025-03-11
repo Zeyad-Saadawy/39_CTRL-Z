@@ -32,14 +32,14 @@ public class CartService {
     }
 
     public List<Cart> getCarts() {
-        return cartRepository.getCarts();
+        return cartRepository.findAll();
     }
 
     public Cart getCartById(UUID cartId) {
         Cart cart = cartRepository.getCartById(cartId);
 
         if (cart == null) {
-            throw new IllegalArgumentException("Cart not found ");
+            throw new IllegalArgumentException("Cart not found");
         }
 
         return cart;
@@ -49,12 +49,11 @@ public class CartService {
         Cart cart = cartRepository.getCartByUserId(userId);
 
         if (cart == null) {
-            throw new IllegalArgumentException("Cart not found ");
+            throw new IllegalArgumentException("Cart not found");
         }
 
         return cart;
     }
-
     public void emptyCart(UUID userId) {
         Cart cart = getCartByUserId(userId);
         cart.getProducts().clear();
@@ -71,39 +70,57 @@ public class CartService {
                 .sum();
     }
 
+
+
     public void deleteCartById(UUID cartId) {
+        if (cartId == null) {
+            throw new IllegalArgumentException("Cart ID cannot be null");
+        }
+        Cart cart = cartRepository.getCartById(cartId);
+        if (cart == null) {
+            throw new IllegalArgumentException("Cart not found");
+        }
         cartRepository.deleteCartById(cartId);
     }
 
-    public void deleteCartByUserId(UUID userId) {
-        Cart cart = cartRepository.getCartByUserId(userId);
-        if (cart != null) {
-            cartRepository.deleteCartById(cart.getId());
-        }
-    }
-
     public void addProductToCart(UUID cartId, Product product) {
+        if (product == null) {
+            throw new IllegalArgumentException("Product cannot be null");
+        }
+        if (cartId == null) {
+            throw new IllegalArgumentException("Cart ID cannot be null");
+        }
         cartRepository.addProductToCart(cartId, product);
     }
-
-
-    // Remove a product from a user's cart
     public void deleteProductFromCart(UUID cartId, Product product) {
         Cart cart = cartRepository.getCartById(cartId);
-
         if (cart == null) {
-            throw new IllegalArgumentException("Cart not found with ID: " + cartId);
+            throw new IllegalArgumentException("Cart not found");
         }
 
-        boolean removed = cart.getProducts().removeIf(p -> p.getId().equals(product.getId()));
+        boolean productFound = false;
 
-        if (!removed) {
-            throw new IllegalArgumentException("Product not found in cart: " + product.getId());
+        for (Product p : cart.getProducts()) {
+            if (p.getId().equals(product.getId())) {
+                productFound = true;
+                break;
+            }
+        }
+        if (cart.getProducts().isEmpty()) {
+            throw new RuntimeException("Cart is empty");
         }
 
-        cartRepository.overrideData(cartRepository.getCarts()); // Persist changes
+        if (!productFound) {
+            throw new IllegalArgumentException("Product not found in cart");
+        }
+        cart.getProducts().remove(product);
+        cartRepository.save(cart);
     }
-
-
-
+    public void deleteCartByUserId(UUID userId) {
+        Cart cart = cartRepository.getCartByUserId(userId);
+        if (cart == null) {
+            throw new IllegalArgumentException("Cart not found");
+        }
+        cartRepository.deleteCartById(cart.getId());
+    }
 }

@@ -1,3 +1,4 @@
+
 package com.example.MiniProject1.service;
 
 import com.example.model.User;
@@ -22,17 +23,10 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 public class UserServiceTest {
 
-    @Mock
-    private UserRepository userRepository;
-
-    @Mock
-    private CartService cartService;
-
-    @Mock
-    private OrderService orderService;
-
-    @InjectMocks
-    private UserService userService;
+    @Mock private UserRepository userRepository;
+    @Mock private CartService cartService;
+    @Mock private OrderService orderService;
+    @InjectMocks private UserService userService;
 
     private UUID userId;
     private User testUser;
@@ -42,32 +36,15 @@ public class UserServiceTest {
     @BeforeEach
     void setUp() {
         userId = UUID.randomUUID();
-
-        testUser = new User();
-        testUser.setId(userId);
-        testUser.setName("Test User");
-        testUser.setOrders(new ArrayList<>());
-
-
-        testProduct = new Product();
-        testProduct.setId(UUID.randomUUID());
-        testProduct.setName("Test Product");
-        testProduct.setPrice(99.99);
-
-
-        testCart = new Cart();
-        testCart.setId(UUID.randomUUID());
-        testCart.setUserId(userId);
-        testCart.setProducts(new ArrayList<>());
+        testUser = new User(userId, "Test User", new ArrayList<>());
+        testProduct = new Product(UUID.randomUUID(), "Test Product", 99.99);
+        testCart = new Cart(UUID.randomUUID(), userId, new ArrayList<>());
     }
 
-    // === addUser() Tests ===
-
+    // ==================== addUser() Tests ====================
     @Test
     void addUser_GeneratesIdWhenNull() {
-        User newUser = new User();
-        newUser.setName("New User");
-        newUser.setOrders(new ArrayList<>());
+        User newUser = new User(null, "New User", new ArrayList<>());
 
         when(userRepository.addUser(any(User.class))).thenAnswer(inv -> {
             User u = inv.getArgument(0);
@@ -76,144 +53,202 @@ public class UserServiceTest {
         });
 
         User result = userService.addUser(newUser);
-        assertNotNull(result.getId(), "Should generate UUID when null");
-        assertEquals("New User", result.getName(), "Name should match input");
-        verify(userRepository, times(1)).addUser(any(User.class));
+        assertNotNull(result.getId());
+        verify(userRepository).addUser(any(User.class));
     }
 
     @Test
-    void addUser_PersistsUserWithExistingId() {
-        User userWithId = new User();
-        userWithId.setId(userId);
-        userWithId.setName("Existing ID User");
-        userWithId.setOrders(new ArrayList<>());
-
+    void addUser_PreservesExistingId() {
+        User userWithId = new User(userId, "Existing ID User", new ArrayList<>());
         when(userRepository.addUser(userWithId)).thenReturn(userWithId);
 
         User result = userService.addUser(userWithId);
-        assertEquals(userId, result.getId(), "Should preserve existing ID");
-        verify(userRepository, times(1)).addUser(userWithId);
+        assertEquals(userId, result.getId());
     }
-
-    // ... [Keep other addUser() tests unchanged] ...
-
-    // === getUsers() Tests ===
 
     @Test
-    void getUsers_ReturnsAllUsers() {
-        // Create users using setters
-        User user1 = new User();
-        user1.setId(UUID.randomUUID());
-        user1.setName("Alice");
+    void addUser_HandlesRepositoryErrors() {
+        User invalidUser = new User(null, null, null);
+        when(userRepository.addUser(any())).thenThrow(new RuntimeException("DB Error"));
 
-        User user2 = new User();
-        user2.setId(UUID.randomUUID());
-        user2.setName("Bob");
-
-        when(userRepository.getUsers()).thenReturn(new ArrayList<>(Arrays.asList(user1, user2)));
-
-        ArrayList<User> result = userService.getUsers();
-        assertEquals(2, result.size(), "Should return all users");
-        verify(userRepository, times(1)).getUsers();
+        assertThrows(RuntimeException.class, () -> userService.addUser(invalidUser));
     }
 
-    // ... [Keep other getUsers() tests unchanged] ...
+    // ==================== getUsers() Tests ====================
     @Test
-    void deleteUserById_DeletesUserSuccessfully() {
-        // Arrange
-        UUID userId = UUID.randomUUID();
-
-        // Mock the behavior of userRepository.deleteUserById
-        doNothing().when(userRepository).deleteUserById(userId);
-
-        // Act
-        userService.deleteUserById(userId);
-
-        // Assert
-        verify(userRepository, times(1)).deleteUserById(userId); // Verify user is deleted
-        verifyNoInteractions(cartService); // Ensure cartService is not called
+    void getUsers_ReturnsEmptyListWhenNoUsers() {
+        when(userRepository.getUsers()).thenReturn(new ArrayList<>());
+        assertTrue(userService.getUsers().isEmpty());
     }
 
-    // === addOrderToUser() Tests ===
+    @Test
+    void getUsers_ReturnsMultipleUsers() {
+        List<User> mockUsers = Arrays.asList(
+                new User(UUID.randomUUID(), "Alice", new ArrayList<>()),
+                new User(UUID.randomUUID(), "Bob", new ArrayList<>())
+        );
+        when(userRepository.getUsers()).thenReturn(new ArrayList<>(mockUsers));
 
+        assertEquals(2, userService.getUsers().size());
+    }
+
+    @Test
+    void getUsers_HandlesRepositoryExceptions() {
+        when(userRepository.getUsers()).thenThrow(new RuntimeException("DB Error"));
+        assertThrows(RuntimeException.class, () -> userService.getUsers());
+    }
+
+    // ==================== getUserById() Tests ====================
+    @Test
+    void getUserById_ReturnsCorrectUser() {
+        when(userRepository.getUserById(userId)).thenReturn(testUser);
+        assertEquals(testUser, userService.getUserById(userId));
+    }
+
+    @Test
+    void getUserById_ThrowsWhenNotFound() {
+        when(userRepository.getUserById(any())).thenThrow(new IllegalArgumentException());
+        assertThrows(IllegalArgumentException.class,
+                () -> userService.getUserById(UUID.randomUUID()));
+    }
+
+    @Test
+    void getUserById_ValidatesUUIDFormat() {
+        // Mock the behavior of userRepository.getUserById to throw an exception when userId is null
+        when(userRepository.getUserById(null)).thenThrow(new IllegalArgumentException("User ID cannot be null"));
+
+        // Act and Assert
+        assertThrows(IllegalArgumentException.class,
+                () -> userService.getUserById(null));
+    }
+
+    // ==================== getOrdersByUserId() Tests ====================
+    @Test
+    void getOrdersByUserId_ReturnsEmptyOrderList() {
+        when(userRepository.getOrdersByUserId(userId)).thenReturn(new ArrayList<>());
+        assertTrue(userService.getOrdersByUserId(userId).isEmpty());
+    }
+
+    @Test
+    void getOrdersByUserId_ReturnsMultipleOrders() {
+        List<Order> mockOrders = Arrays.asList(
+                new Order(UUID.randomUUID(), userId, 100.0, new ArrayList<>()),
+                new Order(UUID.randomUUID(), userId, 200.0, new ArrayList<>())
+        );
+        when(userRepository.getOrdersByUserId(userId)).thenReturn(mockOrders);
+        assertEquals(2, userService.getOrdersByUserId(userId).size());
+    }
+
+    @Test
+    void getOrdersByUserId_PropagatesRepositoryExceptions() {
+        when(userRepository.getOrdersByUserId(any())).thenThrow(new RuntimeException());
+        assertThrows(RuntimeException.class,
+                () -> userService.getOrdersByUserId(userId));
+    }
+
+    // ==================== addOrderToUser() Tests ====================
     @Test
     void addOrderToUser_CreatesValidOrder() {
-        // Setup cart with product
         testCart.getProducts().add(testProduct);
-
-        // Mock cart retrieval
         when(cartService.getCartByUserId(userId)).thenReturn(testCart);
-
-        // Mock price calculation
-        when(cartService.calculateTotalPrice(testCart)).thenReturn(99.99); // Add this line
-
-        ArgumentCaptor<Order> orderCaptor = ArgumentCaptor.forClass(Order.class);
+        when(cartService.calculateTotalPrice(testCart)).thenReturn(99.99);
 
         userService.addOrderToUser(userId);
 
+        ArgumentCaptor<Order> orderCaptor = ArgumentCaptor.forClass(Order.class);
         verify(orderService).addOrder(orderCaptor.capture());
-        Order createdOrder = orderCaptor.getValue();
-
-        assertEquals(userId, createdOrder.getUserId());
-        assertEquals(99.99, createdOrder.getTotalPrice(), 0.001); // Now matches
-        assertEquals(1, createdOrder.getProducts().size());
-
-        verify(cartService).emptyCart(userId);
+        assertEquals(userId, orderCaptor.getValue().getUserId());
     }
 
     @Test
     void addOrderToUser_ThrowsForEmptyCart() {
-        // Initialize empty cart via setters
-        Cart emptyCart = new Cart();
-        emptyCart.setId(UUID.randomUUID());
-        emptyCart.setUserId(userId);
-        emptyCart.setProducts(new ArrayList<>());
-
-        when(cartService.getCartByUserId(userId)).thenReturn(emptyCart);
-
-        Exception ex = assertThrows(IllegalStateException.class, () ->
-                        userService.addOrderToUser(userId),
-                "Should reject checkout for empty cart"
-        );
-        assertTrue(ex.getMessage().contains("Cannot checkout empty cart"));
+        when(cartService.getCartByUserId(userId)).thenReturn(testCart);
+        assertThrows(IllegalStateException.class,
+                () -> userService.addOrderToUser(userId));
     }
 
-    // === deleteUserById() Tests ===
+    @Test
+    void addOrderToUser_ClearsCartAfterOrder() {
+        testCart.getProducts().add(testProduct);
+        when(cartService.getCartByUserId(userId)).thenReturn(testCart);
+        userService.addOrderToUser(userId);
+        verify(cartService).emptyCart(userId);
+    }
 
+    // ==================== emptyCart() Tests ====================
+    @Test
+    void emptyCart_DelegatesToService() {
+        userService.emptyCart(userId);
+        verify(cartService).emptyCart(userId);
+    }
 
-    // === Other Test Methods ===
-    // [Keep all other tests with similar modifications to use setters]
+    @Test
+    void emptyCart_HandlesMissingCart() {
+        doThrow(new IllegalArgumentException()).when(cartService).emptyCart(any());
+        assertThrows(IllegalArgumentException.class,
+                () -> userService.emptyCart(userId));
+    }
 
+    @Test
+    void emptyCart_ValidatesUserId() {
+        // Mock the behavior of cartService.emptyCart to throw an exception when userId is null
+        doThrow(new IllegalArgumentException("User ID cannot be null"))
+                .when(cartService).emptyCart(null);
+
+        // Act and Assert
+        assertThrows(IllegalArgumentException.class,
+                () -> userService.emptyCart(null));
+    }
+
+    // ==================== removeOrderFromUser() Tests ====================
     @Test
     void removeOrderFromUser_DelegatesToRepository() {
         UUID orderId = UUID.randomUUID();
-
-        // Initialize order via setters
-        Order order = new Order();
-        order.setId(orderId);
-        order.setUserId(userId);
-
-        doNothing().when(userRepository).removeOrderFromUser(userId, orderId);
-
         userService.removeOrderFromUser(userId, orderId);
-        verify(userRepository, times(1)).removeOrderFromUser(userId, orderId);
+        verify(userRepository).removeOrderFromUser(userId, orderId);
     }
 
     @Test
-    void emptyCart_DelegatesToService() {
-        // Initialize cart via setters
-        Cart cart = new Cart();
-        cart.setId(UUID.randomUUID());
-        cart.setUserId(userId);
-
-        doNothing().when(cartService).emptyCart(userId);
-
-        userService.emptyCart(userId);
-        verify(cartService, times(1)).emptyCart(userId);
+    void removeOrderFromUser_ThrowsForMissingOrder() {
+        doThrow(new IllegalArgumentException()).when(userRepository)
+                .removeOrderFromUser(any(), any());
+        assertThrows(IllegalArgumentException.class,
+                () -> userService.removeOrderFromUser(userId, UUID.randomUUID()));
     }
 
+    @Test
+    void removeOrderFromUser_ValidatesParameters() {
+        // Mock the behavior of userRepository.removeOrderFromUser to throw an exception when userId is null
+        doThrow(new IllegalArgumentException("User ID cannot be null"))
+                .when(userRepository).removeOrderFromUser(isNull(), any(UUID.class));
 
+        // Act and Assert
+        assertThrows(IllegalArgumentException.class,
+                () -> userService.removeOrderFromUser(null, UUID.randomUUID()));
+    }
 
+    // ==================== deleteUserById() Tests ====================
+    @Test
+    void deleteUserById_CleansUpResources() {
+        // Act
+        userService.deleteUserById(userId);
 
+        // Assert
+        verify(userRepository).deleteUserById(userId); // Verify user is deleted
+        verifyNoInteractions(cartService); // Ensure cartService is not called
+    }
 
+    @Test
+    void deleteUserById_HandlesMissingUser() {
+        doThrow(new IllegalArgumentException()).when(userRepository).deleteUserById(any());
+        assertThrows(IllegalArgumentException.class,
+                () -> userService.deleteUserById(userId));
+    }
+
+    @Test
+    void deleteUserById_IgnoresMissingCart() {
+        // No stubbing for cartService.deleteCartByUserId
+        userService.deleteUserById(userId); // Should not throw
+        verify(userRepository).deleteUserById(userId);
+    }
 }

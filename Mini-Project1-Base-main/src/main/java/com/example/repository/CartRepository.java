@@ -54,10 +54,15 @@ public class CartRepository extends MainRepository<Cart>{
 
 
     }
-
     public Cart getCartByUserId(UUID userId) {
-        return findAll().stream()
-                .filter(cart -> cart.getUserId().equals(userId))
+        ArrayList<Cart> carts = getCarts();
+        if (carts.isEmpty()) {
+            System.out.println("No carts found in the system.");
+            return null;
+        }
+
+        return carts.stream()
+                .filter(cart -> cart.getUserId() != null && cart.getUserId().equals(userId))
                 .findFirst()
                 .orElse(null);
     }
@@ -71,6 +76,7 @@ public class CartRepository extends MainRepository<Cart>{
     public void addProductToCart(UUID cartId, Product product) {
         ArrayList<Cart> carts = getCarts();
         boolean cartFound = false;
+
         for (Cart cart : carts) {
             if (cart.getId().equals(cartId)) {
                 cart.getProducts().add(product);
@@ -78,10 +84,11 @@ public class CartRepository extends MainRepository<Cart>{
                 break;
             }
         }
+
         if (!cartFound) {
             throw new IllegalArgumentException("Cart not found with ID: " + cartId);
         }
-        overrideData(carts);  // Persist the entire updated list of carts
+        overrideData(carts);
     }
 
     public void deleteProductFromCart(UUID cartId, Product product) {

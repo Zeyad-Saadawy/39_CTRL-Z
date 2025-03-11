@@ -82,25 +82,28 @@ public class CartService {
         }
     }
 
-    public void addProductToCart(UUID userId, Product product) {
-        Cart cart;
-        try {
-             cart = getCartByUserId(userId);
-        } catch (IllegalArgumentException e) {
-            // Create new cart if none exists
-            cart = new Cart(userId);
-            cartRepository.addCart(cart);
-        }
-        cartRepository.addProductToCart(cart.getId(), product);
+    public void addProductToCart(UUID cartId, Product product) {
+        cartRepository.addProductToCart(cartId, product);
     }
+
 
     // Remove a product from a user's cart
     public void deleteProductFromCart(UUID cartId, Product product) {
-        Cart cart = getCartByUserId(cartId);
-        if (cart != null) {
-            cartRepository.deleteProductFromCart(cart.getId(), product);
-        } else {
-            throw new IllegalArgumentException("Cart not found for user: " + cartId);
+        Cart cart = cartRepository.getCartById(cartId);
+
+        if (cart == null) {
+            throw new IllegalArgumentException("Cart not found with ID: " + cartId);
         }
+
+        boolean removed = cart.getProducts().removeIf(p -> p.getId().equals(product.getId()));
+
+        if (!removed) {
+            throw new IllegalArgumentException("Product not found in cart: " + product.getId());
+        }
+
+        cartRepository.overrideData(cartRepository.getCarts()); // Persist changes
     }
+
+
+
 }

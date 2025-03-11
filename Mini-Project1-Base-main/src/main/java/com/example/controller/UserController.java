@@ -107,7 +107,7 @@ public class UserController {
         }
         // Use the cart's ID along with the product instance.
         cartService.deleteProductFromCart(cart.getId(), product);
-        return "Product removed from cart successfully";
+        return "Product deleted from cart";
     }
 
     // 8.1.2.10 Delete User

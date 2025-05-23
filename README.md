@@ -128,20 +128,68 @@ src/
 ---
 
 ## 🐳 Docker Setup
-1. **Dockerfile**:  
-   - Ensure the JSON files are mounted correctly in the container.  
-   - Update environment variables in the Dockerfile to reflect the new paths for JSON files in the container.
 
-2. **Commands**:  
-   - Build the image:  
-     ```bash
-     docker build -t mini-project1 .
-     ```
-   - Run the container:  
-     ```bash
-     docker run -p 8080:8080 -v /path/to/data:/app/data mini-project1
-     ```
+### Dockerfile Configuration
+```dockerfile
+# Use OpenJDK 25 as the base image
+FROM openjdk:25-ea-4-jdk-oraclelinux9
 
+# Set the working directory
+WORKDIR /app
+
+# Copy the entire project into the container
+COPY ./ /app
+
+# Set environment variable for JSON data path
+ENV DATA_JSON_PATH=/app/data
+
+# Ensure the data directory exists
+RUN mkdir -p /app/data
+
+# Expose port 8080 for the application
+EXPOSE 8080
+
+# Run the application
+CMD ["java", "-jar", "/app/target/mini1.jar"]
+```
+
+### Building and Running the Container
+
+1. First build the Spring Boot application:
+```bash
+mvn clean package
+```
+
+2. Build the Docker image:
+```bash
+docker build -t mini-project1 .
+```
+
+3. Run the container with volume mounting for persistent data:
+```bash
+docker run -p 8080:8080 -v "$(pwd)/src/main/data:/app/data" mini-project1
+```
+
+### Important Notes:
+- The `DATA_JSON_PATH` environment variable is set to `/app/data` inside the container
+- Volume mounting (`-v` flag) ensures your JSON data persists between container restarts
+- The application will be available at `http://localhost:8080`
+- Make sure to build the project with `mvn package` before building the Docker image
+
+### Docker Commands Cheat Sheet
+```bash
+# List running containers
+docker ps
+
+# Stop a container
+docker stop <container-id>
+
+# Remove a container
+docker rm <container-id>
+
+# Remove an image
+docker rmi mini-project1
+```
 ---
 
 ## 🧪 Testing
